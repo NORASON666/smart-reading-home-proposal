@@ -196,6 +196,34 @@ button { font-family: inherit; cursor: pointer; }
 }
 .card:hover { box-shadow: var(--shadow-sm); border-color: var(--color-neutral-60); transform: translateY(-3px); }
 
+/* ── 推廣活動 卡片區 ── */
+.act-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.act-card { position: relative; display: flex; flex-direction: column; gap: 11px; padding: 22px 20px; background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius-med); box-shadow: var(--shadow-xs); transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s; }
+.act-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); border-color: var(--c-act); }
+.act-card__icon { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; font-size: 23px; color: #fff; background: linear-gradient(135deg, var(--c-act-dk), var(--c-act)); box-shadow: var(--shadow-xs); }
+.act-card--read:hover { border-color: var(--c-read); }
+.act-card--read .act-card__icon { background: linear-gradient(135deg, var(--c-read-dk), var(--c-read)); }
+.act-card__title { font-size: 16px; font-weight: 800; color: var(--color-neutral-10); }
+.act-card:hover .act-card__title { color: var(--c-act-dk); }
+.act-card--read:hover .act-card__title { color: var(--c-read-dk); }
+.act-card__desc { font-size: 13px; color: var(--color-neutral-30); line-height: 1.6; flex: 1; }
+.act-card__foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 980px){ .act-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px){ .act-grid { grid-template-columns: 1fr; } }
+
+/* ── 閱讀專欄 文章卡（閱讀私房菜）── */
+.col-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.col-card { display: flex; flex-direction: column; background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius-med); overflow: hidden; box-shadow: var(--shadow-xs); transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s; }
+.col-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); border-color: var(--color-neutral-60); }
+.col-card__img { aspect-ratio: 16/10; background-size: cover; background-position: center; background-color: var(--color-neutral-60); }
+.col-card__body { padding: 15px 17px 18px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.col-card__title { font-size: 15px; font-weight: 700; line-height: 1.55; color: var(--color-neutral-10); }
+.col-card:hover .col-card__title { color: var(--color-primary-50); }
+.col-card__excerpt { font-size: 13px; color: var(--color-neutral-30); line-height: 1.6; flex: 1; }
+.col-card__more { font-size: 13px; font-weight: 700; color: var(--color-primary-50); }
+@media (max-width: 900px){ .col-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px){ .col-grid { grid-template-columns: 1fr; } }
+
 /* ── 公告列 ── */
 .notice { display: flex; align-items: center; gap: 14px; padding: 14px 4px; border-bottom: 1px solid var(--line); }
 .notice:last-child { border-bottom: 0; }

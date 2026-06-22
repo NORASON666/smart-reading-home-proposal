@@ -51,6 +51,7 @@
   .act-item__m { font-size: 11px; color: var(--color-neutral-30); }
   .act-item__thumb { flex: 0 0 auto; width: 78px; height: 58px; border-radius: 8px; background-size: cover; background-position: center; box-shadow: var(--shadow-xs); position: relative; }
   .act-item__thumb.play::after { width: 30px; height: 30px; font-size: 11px; padding-left: 3px; box-shadow: 0 3px 8px rgba(0,0,0,.3); }
+  .act-item__ic { flex: 0 0 auto; width: 78px; height: 58px; border-radius: 8px; display: grid; place-items: center; font-size: 27px; color: #fff; background: linear-gradient(135deg, var(--c-act-dk), var(--c-act)); box-shadow: var(--shadow-xs); }
   .act-item__b h4 { margin: 0 0 3px; font-size: 16px; }
   .act-item__b p { margin: 0; font-size: 13px; color: var(--color-neutral-30); }
 
@@ -127,20 +128,36 @@
             <a class="more-link lane__more" href="#">看全部活動</a>
           </div>
 
-          <div data-block="c-acts" data-block-label="右欄 · 進行中活動">
-            <div class="subhead">進行中</div>
-            <a class="act-item" href="#"><div class="act-item__thumb" style="background-image:url('assets/img/act-ocean.jpg')"></div><div class="act-item__b"><h4>海洋永續閱讀月任務 <span class="tag tag--act" style="vertical-align:middle">至 6/30</span></h4><p>讀 3 本 + 學習單 · 全市 · 148 班參與中</p></div></a>
-            <a class="act-item" href="https://www.youtube.com/watch?v=mOS-JAw0zNY" target="_blank" rel="noopener"><div class="act-item__thumb play" style="background-image:url('assets/img-real/ytv-anchor.jpg')"></div><div class="act-item__b"><h4>「我是小主播」影音徵選 <span class="tag tag--act" style="vertical-align:middle">至 7/15</span></h4><p>3 分鐘導讀一本好書 · 點看官方示範影片</p></div></a>
-            <a class="act-item" href="#"><div class="act-item__thumb" style="background-image:url('assets/img/act-class.jpg')"></div><div class="act-item__b"><h4>多文本讀報挑戰 <span class="tag tag--act" style="vertical-align:middle">第 8 期</span></h4><p>線上學習單 · 完成累積閱讀點數</p></div></a>
+          <div data-block="c-acts" data-block-label="右欄 · 推廣活動">
+            <div class="subhead">推廣活動</div>
+            <a class="act-item" href="#"><div class="act-item__thumb" style="background-image:url('assets/img/act-ocean.jpg')"></div><div class="act-item__b"><h4>每月專題任務 <span class="tag tag--act" style="vertical-align:middle">至 6/30</span></h4><p>本月：海洋永續閱讀月 · 148 班參與中</p></div></a>
+            <a class="act-item" href="https://www.youtube.com/watch?v=mOS-JAw0zNY" target="_blank" rel="noopener"><div class="act-item__thumb play" style="background-image:url('assets/img-real/ytv-anchor.jpg')"></div><div class="act-item__b"><h4>我是小主播 <span class="tag tag--act" style="vertical-align:middle">影音徵選</span></h4><p>3 分鐘導讀一本好書 · 點看官方影片</p></div></a>
+            <a class="act-item" href="https://www.youtube.com/playlist?list=PLX4dIedysUvxvDGt3RNdJUm8ZFEBykkcy" target="_blank" rel="noopener"><div class="act-item__thumb play" style="background-image:url('assets/img-real/ytv-storyteller3.jpg')"></div><div class="act-item__b"><h4>小小說書人 <span class="tag tag--green" style="vertical-align:middle">說故事比賽</span></h4><p>低中高年級組 · 點看歷年得獎影片</p></div></a>
+            <a class="act-item" href="#"><div class="act-item__ic">💬</div><div class="act-item__b"><h4>線上讀書會 <span class="tag" style="vertical-align:middle">常態</span></h4><p>主題選書線上共讀、即時討論</p></div></a>
+            <a class="act-item" href="#"><div class="act-item__ic">✍️</div><div class="act-item__b"><h4>自編故事劇本 <span class="tag" style="vertical-align:middle">徵件中</span></h4><p>師生共創劇本 · 優選登台演出</p></div></a>
+            <a class="act-item" href="#"><div class="act-item__ic">🏆</div><div class="act-item__b"><h4>閱冠磐石獎 <span class="tag" style="vertical-align:middle">年度</span></h4><p>表揚閱讀推動學校、教師與小尖兵</p></div></a>
           </div>
 
           <div data-block="c-results" data-block-label="右欄 · 成果亮點">
             <div class="subhead">成果亮點</div>
-            <a class="act-item" href="https://www.youtube.com/watch?v=4Lxl6KAjsRE" target="_blank" rel="noopener" style="background:var(--color-neutral-80)"><div class="act-item__thumb play" style="background-image:url('assets/img-real/ytv-storyteller3.jpg')"></div><div class="act-item__b"><h4>小小說書人：青蛙不必變王子 <span class="tag tag--green" style="vertical-align:middle">🏆 特優</span></h4><p>111 年度低年級組 · 點看得獎影片</p></div></a>
+            <a class="act-item" href="https://www.youtube.com/channel/UCIxfcH9pe9JJi1PtRJG9NZw" target="_blank" rel="noopener" style="background:var(--color-neutral-80)"><div class="act-item__ic" style="background:linear-gradient(135deg,#7a4a12,#c77d28)">🎬</div><div class="act-item__b"><h4>捕捉閱讀紀錄片 <span class="tag tag--act" style="vertical-align:middle">▶ 影片</span></h4><p>校園閱讀風景微紀錄 · 官方頻道</p></div></a>
             <a class="act-item" href="#" style="background:var(--color-neutral-80)"><div class="act-item__thumb" style="background-image:url('assets/img/book-kid.jpg')"></div><div class="act-item__b"><h4>學生創作《小主播的一天》</h4><p>已上架 HyRead · 全市可借</p></div></a>
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- 閱讀專欄（全寬，可關） -->
+  <section class="section section--tight" data-block="column" data-block-label="閱讀專欄（閱讀私房菜）">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow">閱讀私房菜</span><h2 class="section-title">閱讀專欄</h2></div><a class="more-link" href="#">更多專欄</a></div>
+      <div class="col-grid">
+        <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/act-class.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">紙飛機起飛！讓 STEAM 教育在校園展翅高飛</div><div class="col-card__excerpt">從一架紙飛機出發，帶孩子在動手做中體會跨域學習的樂趣。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+        <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/act-reading.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">鏡頭下的教學活力</div><div class="col-card__excerpt">用鏡頭記錄課堂的每個發光時刻，看見閱讀教學的活力。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+        <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/act-library.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">力行國小「活力小劇團」的 STEAM 跨域之旅</div><div class="col-card__excerpt">戲劇結合科學探究，分享一段從舞台到課堂的跨域歷程。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+        <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/book-stars.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">「我是小主播比賽」指導教師心得</div><div class="col-card__excerpt">第一次帶隊參賽？資深指導老師的實戰心得與叮嚀。</div><span class="col-card__more">閱讀全文 →</span></div></a>
       </div>
     </div>
   </section>
