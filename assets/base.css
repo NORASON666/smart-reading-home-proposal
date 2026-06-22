@@ -196,6 +196,38 @@ button { font-family: inherit; cursor: pointer; }
 }
 .card:hover { box-shadow: var(--shadow-sm); border-color: var(--color-neutral-60); transform: translateY(-3px); }
 
+/* ── 閱讀挑戰任務（國中深耕閱讀 · 投稿）── */
+.challenge { display: grid; grid-template-columns: 188px 1fr; gap: 30px; align-items: center; background: linear-gradient(135deg, #ffffff, #f4f0fb); border: 1px solid #e6e0f2; border-left: 5px solid #6b4ea8; border-radius: var(--radius-med); padding: 26px 30px; box-shadow: var(--shadow-xs); }
+.challenge__cover { aspect-ratio: 3/4; border-radius: var(--radius-def); background-size: cover; background-position: center; box-shadow: var(--shadow-sm); position: relative; display: flex; align-items: flex-end; justify-content: center; color: #fff; }
+.challenge__cover::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(to top, rgba(20,10,40,.78), rgba(20,10,40,.05) 60%); }
+.challenge__cover span { position: relative; z-index: 1; font-family: var(--font-serif); font-weight: 700; font-size: 17px; padding: 0 10px 12px; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+.challenge__kicker { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 700; letter-spacing: 2px; color: #6b4ea8; }
+.challenge__title { font-family: var(--font-serif); font-size: 23px; font-weight: 900; margin: 9px 0 8px; color: var(--color-neutral-0); line-height: 1.4; }
+.challenge__task { font-size: 15px; color: var(--color-neutral-20); line-height: 1.75; margin: 0 0 14px; }
+.challenge__task b { color: #6b4ea8; }
+.challenge__meta { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 16px; font-size: 13px; color: var(--color-neutral-30); }
+.challenge__meta b { color: var(--color-neutral-10); }
+.challenge__cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn--chal { background: #6b4ea8; }
+.btn--chal:hover { background: #553c87; }
+@media (max-width: 680px){ .challenge { grid-template-columns: 1fr; } .challenge__cover { max-width: 156px; } }
+
+/* 以書映光 · 優良作品（學生投稿）*/
+.work-subhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 28px 0 16px; }
+.work-subhead h3 { font-family: var(--font-serif); font-size: 19px; margin: 0; color: var(--color-neutral-0); }
+.work-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.work-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-def); overflow: hidden; box-shadow: var(--shadow-xs); transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+.work-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+.work-card__thumb { aspect-ratio: 4/3; position: relative; display: grid; place-items: center; font-size: 30px; color: #6b4ea8; background: linear-gradient(135deg, #f4f0fb, #e7def5); }
+.work-card__badge { position: absolute; top: 8px; left: 8px; }
+.work-card__rdr { position: absolute; bottom: 7px; left: 7px; right: 7px; font-size: 11px; color: var(--color-neutral-20); background: rgba(255,255,255,.88); border-radius: var(--radius-full); padding: 2px 8px; text-align: center; }
+.work-card__body { padding: 10px 12px 13px; }
+.work-card__who { font-size: 14px; font-weight: 700; color: var(--color-neutral-10); }
+.work-card__sch { font-size: 12px; color: var(--color-neutral-30); margin-top: 2px; }
+.work-card__more { font-size: 12px; font-weight: 700; color: #6b4ea8; margin-top: 7px; display: inline-block; }
+@media (max-width: 980px){ .work-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 520px){ .work-grid { grid-template-columns: repeat(2, 1fr); } }
+
 /* ── 推廣活動 卡片區 ── */
 .act-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .act-card { position: relative; display: flex; flex-direction: column; gap: 11px; padding: 22px 20px; background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius-med); box-shadow: var(--shadow-xs); transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s; }
@@ -273,11 +305,14 @@ button { font-family: inherit; cursor: pointer; }
 .panel__head h3 { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: .5px; }
 .panel__head p { margin: 4px 0 0; font-size: 12px; color: #c9dcf0; line-height: 1.5; }
 .panel__list { max-height: 46vh; overflow-y: auto; padding: 8px; }
-.panel__item { display: flex; align-items: center; gap: 11px; padding: 9px 11px; border-radius: var(--radius-sm); cursor: pointer; transition: background .15s; }
+.panel__item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius-sm); transition: background .15s, box-shadow .15s; background: #fff; }
 .panel__item:hover { background: var(--color-neutral-80); }
-.panel__item input { width: 17px; height: 17px; accent-color: var(--color-primary-50); flex: 0 0 auto; }
-.panel__item span { font-size: 14px; font-weight: 600; color: var(--color-neutral-10); }
-.panel__item small { margin-left: auto; font-size: 11px; color: var(--color-neutral-30); }
+.panel__item input { width: 17px; height: 17px; accent-color: var(--color-primary-50); flex: 0 0 auto; cursor: pointer; }
+.panel__item .panel__name { font-size: 14px; font-weight: 600; color: var(--color-neutral-10); }
+.panel__item small { margin-left: auto; font-size: 11px; color: var(--color-neutral-30); background: var(--color-neutral-70); padding: 1px 7px; border-radius: var(--radius-full); }
+.panel__drag { flex: 0 0 auto; cursor: grab; color: var(--color-neutral-40); font-size: 15px; line-height: 1; padding: 2px; user-select: none; }
+.panel__drag:active { cursor: grabbing; }
+.panel__item.dragging { opacity: .85; box-shadow: var(--shadow-md); background: var(--color-primary-70); cursor: grabbing; }
 .panel__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--color-neutral-80); }
 .panel__count { font-size: 13px; color: var(--color-neutral-20); }
 .panel__count b { color: var(--color-primary-50); }

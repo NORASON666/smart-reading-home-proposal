@@ -28,7 +28,7 @@
   .principle h3 { margin: 8px 0 6px; font-size: 18px; }
   .principle p { margin: 0; font-size: 14px; color: var(--color-neutral-30); line-height: 1.6; }
 
-  .ver-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .ver-cards { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; max-width: 860px; }
   .ver-card { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
   .ver-card__top { height: 150px; position: relative; display: grid; place-items: center; color: #fff; }
   .vt-a { background: linear-gradient(135deg, var(--color-primary-30), var(--color-secondary-60)); }
@@ -56,36 +56,36 @@
 <section class="cover-hero">
   <div class="container">
     <span class="eyebrow">智慧閱讀平臺 · 首頁版型提案</span>
-    <h1>同一個首頁，三種「不爆量」的解法</h1>
-    <p>麗湖國小老師說「首頁的資訊都很重要」，Rebecca 也覺得不好取捨。這份提案不是把所有區塊塞進一頁，而是用三種不同的<strong>資訊架構策略</strong>，讓大家在會議上具體比較、當場做決定。</p>
+    <h1>兩種首頁版型，供老師參考選擇</h1>
+    <p>麗湖國小老師說「首頁的資訊都很重要」，Rebecca 也覺得不好取捨。這份提案不是把所有區塊塞進一頁，而是用兩種不同的<strong>資訊架構方向</strong>，提供 <b>資訊教育科、國教科</b> 老師具體比較、參考選擇。可拖曳排序、即時開關區塊。</p>
     <div class="meta-row">
       <span>📅 為 <b>2026-06-22（週三）下午線上會議</b> 準備</span>
       <span>🎨 沿用 <b>凌網 design-tokens</b>（HyVue CMS 1.1）</span>
-      <span>🧩 三版皆可<b>自由開關區塊</b></span>
+      <span>🧩 兩版皆可<b>拖曳排序、開關區塊</b></span>
     </div>
   </div>
 </section>
 
 <div class="container">
   <div class="principle">
-    <div class="card"><div class="num">原則 01</div><h3>首頁分流，不平鋪</h3><p>電子書世界與活動世界各自有專區。首頁只當「入口大廳」＋本月焦點，不在同一頁把九個區塊全攤開。</p></div>
+    <div class="card"><div class="num">原則 01</div><h3>內容優先</h3><p>以「書單／學生創作／AI 推薦」為主、活動與成果為輔，把首頁焦點放在「閱讀」本身。</p></div>
     <div class="card"><div class="num">原則 02</div><h3>精緻＝克制</h3><p>大留白、克制的陰影、拉大的字級對比。少而精的策展感，而不是「什麼都能塞」。</p></div>
-    <div class="card"><div class="num">原則 03</div><h3>讓你親手取捨</h3><p>每一版右下角都有 <b>⚙ 自由拼版面</b>：即時開關區塊，當場感受拿掉哪些就清爽了。</p></div>
+    <div class="card"><div class="num">原則 03</div><h3>讓你親手拼版面</h3><p>右下角 <b>⚙ 自由拼版面</b>：可<b>滑鼠拖曳排序</b>、即時開關區塊，當場拼出你要的首頁。</p></div>
   </div>
 </div>
 
 <section class="section">
   <div class="container">
-    <div class="section-head"><div><span class="eyebrow">三選一 · 或混搭</span><h2 class="section-title">點開比較三個版本</h2></div></div>
+    <div class="section-head"><div><span class="eyebrow">兩種方向 · 供老師選擇</span><h2 class="section-title">點開比較兩個版本</h2></div></div>
     <div class="ver-cards">
 
       <a class="card ver-card" href="version-a.html">
         <div class="ver-card__top vt-a"><span class="ver-card__letter">A</span></div>
         <div class="ver-card__body">
-          <div class="ver-card__name">每月主打</div>
-          <div class="ver-card__strap">焦點領頭、其餘收斂</div>
-          <p class="ver-card__desc">頂部一張「本月主題任務」大圖領頭，下方放「📚 電子書館／🎯 活動專區」兩張大入口卡，再接本週選書、公告。最乾淨、最有重點。</p>
-          <div class="ver-card__for"><b>適合：</b>想要清爽、像深耕網「每月專題領頭」的感覺</div>
+          <div class="ver-card__name">內容優先　<span style="font-size:12px;color:var(--color-success-dark);font-weight:700">建議給老師參考</span></div>
+          <div class="ver-card__strap">書單／學生創作／AI 推薦為主</div>
+          <p class="ver-card__desc">首頁以<strong>閱讀內容</strong>領頭：本週選書、AI 為你推薦、學生創作電子書三大區塊為主，推廣活動與閱讀成果為輔。沒有大型入口卡，焦點回到「書」本身。</p>
+          <div class="ver-card__for"><b>適合：</b>資訊教育科、國教科老師參考；想讓首頁聚焦閱讀內容</div>
           <span class="btn" style="align-self:flex-start">開啟版本 A →</span>
         </div>
       </a>
@@ -94,21 +94,10 @@
         <div class="ver-card__top vt-b"><span class="ver-card__letter">B</span></div>
         <div class="ver-card__body">
           <div class="ver-card__name">雜誌策展</div>
-          <div class="ver-card__strap">館員精選當封面故事</div>
-          <p class="ver-card__desc">編輯式雜誌版面、襯線標題、留白最多，把「館員選書」做成封面故事。三版裡<strong>最精緻</strong>、最有質感的一版。</p>
-          <div class="ver-card__for"><b>適合：</b>想凸顯專業策展感、追求高質感</div>
+          <div class="ver-card__strap">館員精選封面故事 ＋ 兩大入口</div>
+          <p class="ver-card__desc">編輯式雜誌版面、襯線標題、留白最多，把「館員選書」做成封面故事，並保留「📚 電子書館／🎯 活動專區」<strong>兩大入口</strong>。最精緻、最有質感的一版。</p>
+          <div class="ver-card__for"><b>適合：</b>想凸顯專業策展感、且首頁需要明確的電子書／活動入口</div>
           <span class="btn" style="align-self:flex-start">開啟版本 B →</span>
-        </div>
-      </a>
-
-      <a class="card ver-card" href="version-c.html">
-        <div class="ver-card__top vt-c"><span class="ver-card__letter">C</span></div>
-        <div class="ver-card__body">
-          <div class="ver-card__name">雙欄分流</div>
-          <div class="ver-card__strap">電子書／活動左右並置</div>
-          <p class="ver-card__desc">頂部本月焦點橫幅，下方左欄＝閱讀（藍）、右欄＝活動（金），視覺平衡。<strong>分流但同框</strong>，首頁就能一眼看到兩邊。</p>
-          <div class="ver-card__for"><b>適合：</b>堅持首頁要同時看到書和活動的折衷選項</div>
-          <span class="btn" style="align-self:flex-start">開啟版本 C →</span>
         </div>
       </a>
 
@@ -121,12 +110,12 @@
     <div class="howto">
       <h2>🗣 開會這樣用</h2>
       <ol>
-        <li>三個版本輪流打開，請麗湖老師先憑直覺挑「順眼」的一版。</li>
-        <li>點右下角 <kbd>⚙ 自由拼版面</kbd>，把覺得「首頁不必有」的區塊關掉——面板會即時顯示剩幾個區塊，<strong>取捨一目了然</strong>。</li>
-        <li>三版都用同一套凌網 design-tokens，所以結論可以直接回饋給 Rebecca／凌網當設計方向。</li>
-        <li>每頁左下角 <kbd>A / B / C</kbd> 可快速切換版本對照。</li>
+        <li>兩個版本輪流打開，請老師先憑直覺挑「順眼」的方向。</li>
+        <li>點右下角 <kbd>⚙ 自由拼版面</kbd>：勾選／取消可<strong>開關區塊</strong>，拖曳 <kbd>⠿</kbd> 可<strong>調整區塊上下順序</strong>，當場拼出想要的首頁；面板即時顯示剩幾個區塊。</li>
+        <li>兩版都用同一套凌網 design-tokens，結論可直接回饋給 Rebecca／凌網當設計方向。</li>
+        <li>每頁左下角 <kbd>A / B</kbd> 可快速切換版本對照。</li>
       </ol>
-      <p style="margin:16px 0 0;font-size:13px;color:var(--color-neutral-30)">＊ 畫面為擬真假資料（書名、活動、公告皆為示意）。站名「臺北市智慧閱讀網」為暫定 placeholder。真正的拖拉式版面管理屬凌網後台交付範圍，本提案以「比較具體版本 + 開關區塊」協助你們做決定。</p>
+      <p style="margin:16px 0 0;font-size:13px;color:var(--color-neutral-30)">＊ 畫面為擬真假資料（書名、活動、公告皆為示意），<strong>Banner 不放尚難取得的統計數字</strong>。站名「臺北市智慧閱讀網」為暫定 placeholder。YouTube（我是小主播／小小說書人）為深耕網官方頻道實際影片。</p>
     </div>
   </div>
 </section>
