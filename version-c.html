@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>版本 C · 雜誌精簡（側欄式）｜臺北市智慧閱讀網（版型提案）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<style>
+  /* 版本 C：以 B 為基準的「雜誌精簡版」— 用主欄＋側欄把內容橫向打包、縮短長度 */
+  body { background: #fcfcfb; }
+  .section-title { font-family: var(--font-serif); letter-spacing: 0; }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+  /* 精簡橫向封面 */
+  .cover-c {
+    position: relative; overflow: hidden; border-radius: var(--radius-lg); min-height: 230px;
+    display: flex; align-items: flex-end; padding: 32px 40px; color: #fff;
+    background: linear-gradient(to top, rgba(6,28,52,.9), rgba(6,28,52,.25) 62%, rgba(6,28,52,.05)),
+      url('assets/img/hero-ocean.jpg'); background-size: cover; background-position: center 42%; box-shadow: var(--shadow-md);
+  }
+  .cover-c__eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--color-secondary-80); }
+  .cover-c h1 { font-family: var(--font-serif); font-size: 36px; font-weight: 900; line-height: 1.2; margin: 8px 0 6px; }
+  .cover-c p { margin: 0 0 16px; color: rgba(255,255,255,.9); max-width: 48ch; font-size: 15px; }
+  .cover-c .btn--ghost { color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.55); }
+  .cover-c .btn--ghost:hover { background: rgba(255,255,255,.14); box-shadow: inset 0 0 0 1.5px #fff; }
+
+  /* 封面選書 + 書牆 */
+  .feature { display: grid; grid-template-columns: 160px 1fr; gap: 26px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-med); padding: 22px 26px; margin-bottom: 24px; }
+  .feature__kicker { font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--c-act-dk); }
+  .feature__h { font-family: var(--font-serif); font-size: 26px; font-weight: 900; margin: 8px 0 8px; }
+  .feature__lead { color: var(--color-neutral-20); font-size: 14px; max-width: 56ch; margin: 0 0 14px; line-height: 1.7; }
+  .shelf { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+
+  /* 主欄 + 側欄（圖片中的型式）*/
+  .with-rail { display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: start; }
+  .col-grid--2 { grid-template-columns: repeat(2, 1fr); }
+
+  .rail-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-med); overflow: hidden; box-shadow: var(--shadow-xs); margin-bottom: 22px; }
+  .rail-card:last-child { margin-bottom: 0; }
+  .rail-card__head { padding: 11px 16px; font-weight: 800; font-size: 15px; color: #fff; display: flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--c-act-dk), var(--c-act)); }
+  .rail-card__head--read { background: linear-gradient(135deg, var(--color-primary-30), var(--color-primary-50)); }
+  .rail-card__head--note { background: linear-gradient(135deg, #00754b, #4a9e6f); }
+  .rail-card__head .more-link { margin-left: auto; color: #fff; font-size: 12px; }
+  .rail-card__head .more-link:hover { color: #fff; opacity: .85; }
+  .rail-vid { display: block; }
+  .rail-card__cap { padding: 12px 16px; }
+  .rail-card__cap b { font-size: 14px; }
+  .rail-card__cap p { margin: 4px 0 0; font-size: 12px; color: var(--color-neutral-30); }
+  .rail-card__body { padding: 8px 16px 12px; }
+
+  .read-list a { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .read-list a:last-child { border-bottom: 0; }
+  .read-date { font-size: 12px; font-weight: 800; color: var(--color-primary-50); background: var(--color-primary-70); border-radius: var(--radius-full); padding: 4px 10px; white-space: nowrap; text-align: center; }
+  .read-title { font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+  .read-list a:hover .read-title { color: var(--color-primary-50); }
+  .note-list .notice { padding: 10px 0; }
+
+  /* 頁尾帶：兩大入口 + 好站 */
+  .index2 { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: var(--radius-med); overflow: hidden; background: #fff; }
+  .index2 > a { padding: 22px 26px; transition: background .2s; }
+  .index2 > a:first-child { border-right: 1px solid var(--line); }
+  .index2 > a:hover { background: var(--color-neutral-80); }
+  .index2 .no { font-family: var(--font-serif); font-size: 13px; color: var(--color-neutral-40); letter-spacing: 2px; }
+  .index2 h3 { font-family: var(--font-serif); font-size: 23px; margin: 6px 0 4px; color: var(--color-neutral-0); }
+  .index2 p { margin: 0 0 10px; color: var(--color-neutral-30); font-size: 13px; }
+  .links-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .link-chip { border: 1px solid var(--line); background: #fff; border-radius: var(--radius-full); padding: 9px 15px; font-size: 13px; font-weight: 600; color: var(--color-neutral-20); transition: .2s var(--ease); }
+  .link-chip:hover { color: var(--color-primary-50); border-color: var(--color-primary-50); }
+
+  @media (max-width: 980px){ .with-rail{ grid-template-columns:1fr; } .shelf{ grid-template-columns:repeat(3,1fr);} .feature{ grid-template-columns:1fr; } .feature .book__cover{ max-width:150px; } }
+  @media (max-width: 560px){ .cover-c h1{ font-size:28px;} .shelf{ grid-template-columns:repeat(2,1fr);} .col-grid--2{ grid-template-columns:1fr;} }
+</style>
+</head>
+<body data-version="c">
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="index.html"><span class="brand__mark">📖</span><span>臺北市智慧閱讀網<span class="brand__sub">SMART READING · 站名暫定</span></span></a>
+    <nav class="nav">
+      <a href="#" class="is-current">首頁</a><a href="#">電子書館</a><a href="#">活動專區</a><a href="#">閱讀成果</a><a href="#">電子書創作</a><a href="#">關於</a>
+    </nav>
+    <div class="header-user"><span class="avatar">蓬</span><div><div class="header-user__name">王小美 老師</div><div class="header-user__role">蓬萊國小 · 已登入</div></div></div>
+  </div>
+</header>
+
+<main>
+  <!-- 精簡封面（必留） -->
+  <section class="section section--tight" data-block="cover" data-block-label="封面（本月主題）" data-block-locked>
+    <div class="container">
+      <div class="cover-c reveal">
+        <div>
+          <span class="cover-c__eyebrow">六月主題 · 館員策展</span>
+          <h1>島嶼上的光 · 海洋永續閱讀月</h1>
+          <p>十二本選書，帶孩子用閱讀靠近大海。讀三本、完成一份讀報學習單，蓋滿本月閱讀護照。</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="#">立即參加任務</a><a class="btn btn--ghost" href="#">看本月書展</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主題書展（封面選書 + 書牆） -->
+  <section class="section section--tight" data-block="shelf" data-block-label="主題書展（封面選書 + 書牆）">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow">海洋永續 · 12 選</span><h2 class="section-title">六月主題書展</h2></div><a class="more-link" href="#">看完整書單</a></div>
+      <div class="feature">
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-tree.jpg')"><span class="book__badge tag tag--green">封面選書</span><span class="book__sr">SR 610</span></div></a>
+        <div>
+          <span class="feature__kicker">館員的話</span>
+          <div class="feature__h">會說故事的老樹</div>
+          <p class="feature__lead">海邊的老樹看過漁村幾十年的變遷。這本書讓孩子從一棵樹的視角，讀懂環境與人的關係，也讀懂「永續」兩個字的重量。</p>
+          <a class="btn" href="#">借閱這本書</a>
+        </div>
+      </div>
+      <div class="shelf">
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-mountain.jpg')"><span class="book__cover-title">尋找心中的那座山</span><span class="book__sr">SR 520</span></div><div class="book__title">尋找心中的那座山</div></a>
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-sea.jpg')"><span class="book__cover-title">海邊的小書店</span><span class="book__sr">SR 480</span></div><div class="book__title">海邊的小書店</div></a>
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-coral.jpg')"><span class="book__cover-title">珊瑚的祕密花園</span><span class="book__sr">SR 560</span></div><div class="book__title">珊瑚的祕密花園</div></a>
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-stars.jpg')"><span class="book__cover-title">星空下的提問課</span><span class="book__sr">SR 700</span></div><div class="book__title">星空下的提問課</div></a>
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-river.jpg')"><span class="book__cover-title">河流的旅行</span><span class="book__sr">SR 440</span></div><div class="book__title">河流的旅行</div></a>
+        <a class="book" href="#"><div class="book__cover" style="background-image:url('assets/img/book-city.jpg')"><span class="book__cover-title">當城市開始閱讀</span><span class="book__sr">SR 650</span></div><div class="book__title">當城市開始閱讀</div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 推廣活動 -->
+  <section class="section section--tight" data-block="promo" data-block-label="推廣活動">
+    <div class="container">
+      <hr class="rule" style="margin-bottom:22px">
+      <div class="section-head"><div><span class="eyebrow">一起來閱讀</span><h2 class="section-title">推廣活動</h2></div><a class="more-link" href="#">看全部活動</a></div>
+      <div class="act-grid">
+        <a class="act-card" href="#"><span class="act-card__icon">📅</span><div class="act-card__title">每月專題任務</div><div class="act-card__desc">每月一個閱讀主題，讀指定書、完成學習單蓋護照。</div><div class="act-card__foot"><span class="tag tag--green">進行中</span></div></a>
+        <a class="act-card" href="https://www.youtube.com/watch?v=mOS-JAw0zNY" target="_blank" rel="noopener"><span class="act-card__icon">🎙️</span><div class="act-card__title">我是小主播</div><div class="act-card__desc">3 分鐘導讀一本好書，用鏡頭分享你的閱讀。</div><div class="act-card__foot"><span class="tag tag--act">▶ 影音徵選</span></div></a>
+        <a class="act-card" href="https://www.youtube.com/playlist?list=PLX4dIedysUvxvDGt3RNdJUm8ZFEBykkcy" target="_blank" rel="noopener"><span class="act-card__icon">📖</span><div class="act-card__title">小小說書人</div><div class="act-card__desc">低中高年級說故事比賽，把繪本演成精彩故事。</div><div class="act-card__foot"><span class="tag tag--act">▶ 說故事比賽</span></div></a>
+        <a class="act-card" href="#"><span class="act-card__icon">💬</span><div class="act-card__title">線上讀書會</div><div class="act-card__desc">主題選書線上共讀、即時討論，跨校一起聊書。</div><div class="act-card__foot"><span class="tag">常態報名</span></div></a>
+        <a class="act-card" href="#"><span class="act-card__icon">✍️</span><div class="act-card__title">自編故事劇本</div><div class="act-card__desc">師生共創故事劇本，優選作品可登台演出。</div><div class="act-card__foot"><span class="tag">徵件中</span></div></a>
+        <a class="act-card" href="#"><span class="act-card__icon">🏆</span><div class="act-card__title">閱冠磐石獎</div><div class="act-card__desc">表揚推動閱讀有成的學校、教師與閱讀小尖兵。</div><div class="act-card__foot"><span class="tag">年度表揚</span></div></a>
+        <a class="act-card" href="https://www.youtube.com/channel/UCIxfcH9pe9JJi1PtRJG9NZw" target="_blank" rel="noopener"><span class="act-card__icon">🎬</span><div class="act-card__title">捕捉閱讀紀錄片</div><div class="act-card__desc">用微紀錄片記錄校園裡的閱讀風景與故事。</div><div class="act-card__foot"><span class="tag tag--act">▶ 紀錄片</span></div></a>
+        <a class="act-card act-card--read" href="#"><span class="act-card__icon">📰</span><div class="act-card__title">多文本讀報挑戰</div><div class="act-card__desc">跨文本閱讀理解學習單，培養媒體素養。</div><div class="act-card__foot"><span class="tag">第 8 期</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 以書映光（國中閱讀挑戰 + 優良作品） -->
+  <section class="section section--tight" data-block="challenge" data-block-label="以書映光（國中閱讀挑戰）">
+    <div class="container">
+      <hr class="rule" style="margin-bottom:22px">
+      <div class="section-head"><div><span class="eyebrow">國中深耕閱讀 · 以書映光</span><h2 class="section-title">閱讀挑戰任務</h2></div><a class="more-link" href="#">歷期任務</a></div>
+      <div class="challenge">
+        <div class="challenge__cover" style="background-image:url('assets/img/book-animal.jpg')"><span>動物眼中的世界</span></div>
+        <div>
+          <span class="challenge__kicker">◆ 115 年 5–6 月 · 本期讀本</span>
+          <div class="challenge__title">挑 10 種動物，做一張「四個關鍵」比較表</div>
+          <p class="challenge__task">閱讀《動物眼中的世界》後，從書中挑選 10 種動物，用<b>表格比較對照</b>的方式，呈現牠們在四個關鍵感官上的異同。</p>
+          <div class="challenge__meta"><span>截稿　<b>115/6/26</b></span><span>評分　<b>優良／入選</b></span><span>獎勵　<b>圖書或禮券 100 元</b></span></div>
+          <div class="challenge__cta"><a class="btn btn--chal" href="#">我要投稿</a><a class="btn btn--ghost" href="#">投稿紀錄</a></div>
+        </div>
+      </div>
+      <div class="work-subhead"><h3>本期優良作品</h3><a class="more-link" href="#">看全部得獎作品</a></div>
+      <div class="work-grid">
+        <a class="work-card" href="#"><div class="work-card__thumb">📄<span class="work-card__badge tag" style="background:#ece5f7;color:#6b4ea8">優良</span><span class="work-card__rdr">讀本《動物農莊》</span></div><div class="work-card__body"><div class="work-card__who">沈妍希</div><div class="work-card__sch">市立雙園國中</div><span class="work-card__more">作品瀏覽 →</span></div></a>
+        <a class="work-card" href="#"><div class="work-card__thumb">📄<span class="work-card__badge tag" style="background:#ece5f7;color:#6b4ea8">優良</span><span class="work-card__rdr">讀本《動物農莊》</span></div><div class="work-card__body"><div class="work-card__who">何奕慧</div><div class="work-card__sch">市立成德國中</div><span class="work-card__more">作品瀏覽 →</span></div></a>
+        <a class="work-card" href="#"><div class="work-card__thumb">📄<span class="work-card__badge tag" style="background:#ece5f7;color:#6b4ea8">優良</span><span class="work-card__rdr">讀本《動物農莊》</span></div><div class="work-card__body"><div class="work-card__who">蕭竹妤</div><div class="work-card__sch">市立仁愛國中</div><span class="work-card__more">作品瀏覽 →</span></div></a>
+        <a class="work-card" href="#"><div class="work-card__thumb">📄<span class="work-card__badge tag" style="background:#ece5f7;color:#6b4ea8">優良</span><span class="work-card__rdr">讀本《動物農莊》</span></div><div class="work-card__body"><div class="work-card__who">許馨予</div><div class="work-card__sch">市立仁愛國中</div><span class="work-card__more">作品瀏覽 →</span></div></a>
+        <a class="work-card" href="#"><div class="work-card__thumb">📄<span class="work-card__badge tag" style="background:#ece5f7;color:#6b4ea8">優良</span><span class="work-card__rdr">讀本《動物農莊》</span></div><div class="work-card__body"><div class="work-card__who">歐紫絢</div><div class="work-card__sch">市立雙園國中</div><span class="work-card__more">作品瀏覽 →</span></div></a>
+        <a class="work-card" href="#"><div class="work-card__thumb">📄<span class="work-card__badge tag" style="background:#ece5f7;color:#6b4ea8">優良</span><span class="work-card__rdr">讀本《動物農莊》</span></div><div class="work-card__body"><div class="work-card__who">林孜韕</div><div class="work-card__sch">市立成德國中</div><span class="work-card__more">作品瀏覽 →</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 閱讀專欄 + 側欄（圖片中的型式：主欄文章、右欄影片＋讀報＋公告） -->
+  <section class="section section--tight" data-block="column" data-block-label="閱讀專欄 ＋ 側欄（影片／讀報／公告）">
+    <div class="container">
+      <hr class="rule" style="margin-bottom:22px">
+      <div class="with-rail">
+        <!-- 主欄：閱讀專欄 2×2 -->
+        <div>
+          <div class="section-head"><div><span class="eyebrow">閱讀私房菜</span><h2 class="section-title">閱讀專欄</h2></div><a class="more-link" href="#">更多專欄</a></div>
+          <div class="col-grid col-grid--2">
+            <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/act-class.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">紙飛機起飛！讓 STEAM 教育在校園展翅高飛</div><div class="col-card__excerpt">從一架紙飛機出發，帶孩子在動手做中體會跨域學習的樂趣。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+            <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/act-reading.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">鏡頭下的教學活力</div><div class="col-card__excerpt">用鏡頭記錄課堂的每個發光時刻，看見閱讀教學的活力。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+            <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/act-library.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">力行國小「活力小劇團」的 STEAM 跨域之旅</div><div class="col-card__excerpt">戲劇結合科學探究，分享一段從舞台到課堂的跨域歷程。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+            <a class="col-card" href="#"><div class="col-card__img" style="background-image:url('assets/img/book-stars.jpg')"></div><div class="col-card__body"><span class="tag tag--green">閱讀私房菜</span><div class="col-card__title">「我是小主播比賽」指導教師心得</div><div class="col-card__excerpt">第一次帶隊參賽？資深指導老師的實戰心得與叮嚀。</div><span class="col-card__more">閱讀全文 →</span></div></a>
+          </div>
+        </div>
+
+        <!-- 側欄：我是小主播 影片 + 多文本讀報 + 公告 -->
+        <aside>
+          <div class="rail-card">
+            <div class="rail-card__head">🎙️ 我是小主播</div>
+            <a class="rail-vid media media--16x9 play" href="https://www.youtube.com/watch?v=mOS-JAw0zNY" target="_blank" rel="noopener" style="background-image:url('assets/img-real/ytv-anchor.jpg')"></a>
+            <div class="rail-card__cap"><b>114 年度【我是小主播】比賽 特優</b><p>力行國小（比賽實況）· 官方影片</p></div>
+          </div>
+
+          <div class="rail-card">
+            <div class="rail-card__head rail-card__head--read">📰 多文本讀報學習單<a class="more-link" href="#">MORE</a></div>
+            <div class="rail-card__body read-list">
+              <a href="#"><span class="read-date">06-17</span><span class="read-title">《國語日報》多文本讀報學習單——用數據看世界</span></a>
+              <a href="#"><span class="read-date">06-10</span><span class="read-title">《國語日報》多文本讀報學習單——菸與毒品</span></a>
+              <a href="#"><span class="read-date">06-03</span><span class="read-title">《國語日報》多文本讀報學習單——寵物變家人</span></a>
+            </div>
+          </div>
+
+          <div class="rail-card">
+            <div class="rail-card__head rail-card__head--note">📢 最新公告<a class="more-link" href="#">MORE</a></div>
+            <div class="rail-card__body note-list">
+              <a class="notice" href="#"><div class="notice__date"><div class="notice__day">18</div><div class="notice__mon">6月</div></div><div class="notice__body"><div class="notice__title">「深耕閱讀」評選好書名單公布</div></div></a>
+              <a class="notice" href="#"><div class="notice__date"><div class="notice__day">12</div><div class="notice__mon">6月</div></div><div class="notice__body"><div class="notice__title">「我是小主播」全市決賽報名開跑</div></div></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 兩大入口 + 好站（精簡頁尾帶） -->
+  <section class="section section--tight" data-block="entry" data-block-label="兩大入口 ＋ 好站連結">
+    <div class="container">
+      <hr class="rule" style="margin-bottom:22px">
+      <div class="with-rail">
+        <div class="index2">
+          <a href="#"><div class="no">— 館藏 / 01</div><h3>電子書館</h3><p>96,813 冊電子書館藏、主題書展與 AI 找書。</p><span class="more-link">進入電子書館</span></a>
+          <a href="#"><div class="no">— 參與 / 02</div><h3>活動專區</h3><p>主題任務、小主播、小小說書人、讀書會。</p><span class="more-link">進入活動專區</span></a>
+        </div>
+        <div>
+          <div class="section-head" style="margin-bottom:14px"><div><span class="eyebrow">延伸資源</span><h2 class="section-title" style="font-size:21px">好站連結</h2></div></div>
+          <div class="links-row">
+            <a class="link-chip" href="#">國立臺灣圖書館</a>
+            <a class="link-chip" href="#">臺北市立圖書館</a>
+            <a class="link-chip" href="#">EbookTaipei</a>
+            <a class="link-chip" href="#">深耕閱讀網</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div style="max-width:320px"><div class="footer-brand">📖 臺北市智慧閱讀網</div><p style="font-size:14px;margin:0;color:#92a1b6">整合電子書館藏、主題閱讀活動與閱讀履歷的市級閱讀平臺。<br>（站名為暫定 placeholder）</p><div class="footer-badges"><span class="footer-badge">♿ 無障礙 AA</span><span class="footer-badge">🔒 資安自評</span></div></div>
+      <div class="footer-col"><h4>閱讀</h4><ul><li><a href="#">電子書館</a></li><li><a href="#">主題書展</a></li><li><a href="#">AI 推薦找書</a></li><li><a href="#">電子書創作</a></li></ul></div>
+      <div class="footer-col"><h4>活動</h4><ul><li><a href="#">主題任務</a></li><li><a href="#">我是小主播</a></li><li><a href="#">小小說書人</a></li><li><a href="#">以書映光</a></li></ul></div>
+      <div class="footer-col"><h4>服務</h4><ul><li><a href="#">個人閱讀履歷</a></li><li><a href="#">常見問題</a></li><li><a href="#">隱私權政策</a></li><li><a href="#">資訊安全政策</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>臺北市政府教育局 · 臺北市數位學習中心　指導</span><span>© 2026 智慧閱讀網（版型提案 · 擬真假資料）</span></div>
+  </div>
+</footer>
+
+<nav class="ver-switch" aria-label="版本切換">
+  <a class="ver-switch__home" href="index.html" title="回提案首頁">⌂</a>
+  <a href="version-a.html" title="版本 A · 內容優先">A</a>
+  <a href="version-b.html" title="版本 B · 雜誌策展">B</a>
+  <a href="version-c.html" class="is-current" title="版本 C · 雜誌精簡">C</a>
+</nav>
+
+<script src="assets/toggle.js"></script>
+</body>
+</html>

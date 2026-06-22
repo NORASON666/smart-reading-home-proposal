@@ -28,7 +28,7 @@
   .principle h3 { margin: 8px 0 6px; font-size: 18px; }
   .principle p { margin: 0; font-size: 14px; color: var(--color-neutral-30); line-height: 1.6; }
 
-  .ver-cards { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; max-width: 860px; }
+  .ver-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
   .ver-card { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
   .ver-card__top { height: 150px; position: relative; display: grid; place-items: center; color: #fff; }
   .vt-a { background: linear-gradient(135deg, var(--color-primary-30), var(--color-secondary-60)); }
@@ -56,8 +56,8 @@
 <section class="cover-hero">
   <div class="container">
     <span class="eyebrow">智慧閱讀平臺 · 首頁版型提案</span>
-    <h1>兩種首頁版型，供老師參考選擇</h1>
-    <p>麗湖國小老師說「首頁的資訊都很重要」，Rebecca 也覺得不好取捨。這份提案不是把所有區塊塞進一頁，而是用兩種不同的<strong>資訊架構方向</strong>，提供 <b>資訊教育科、國教科</b> 老師具體比較、參考選擇。可拖曳排序、即時開關區塊。</p>
+    <h1>三個版本，供老師參考選擇</h1>
+    <p>麗湖國小老師說「首頁的資訊都很重要」，Rebecca 也覺得不好取捨。這份提案用三個版本呈現不同的<strong>資訊架構方向</strong>（內容優先／雜誌完整／雜誌精簡），提供 <b>資訊教育科、國教科</b> 老師具體比較、參考選擇。可拖曳排序、即時開關區塊。</p>
     <div class="meta-row">
       <span>📅 為 <b>2026-06-22（週三）下午線上會議</b> 準備</span>
       <span>🎨 沿用 <b>凌網 design-tokens</b>（HyVue CMS 1.1）</span>
@@ -76,7 +76,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="section-head"><div><span class="eyebrow">兩種方向 · 供老師選擇</span><h2 class="section-title">點開比較兩個版本</h2></div></div>
+    <div class="section-head"><div><span class="eyebrow">三個版本 · 供老師選擇</span><h2 class="section-title">點開比較三個版本</h2></div></div>
     <div class="ver-cards">
 
       <a class="card ver-card" href="version-a.html">
@@ -101,6 +101,17 @@
         </div>
       </a>
 
+      <a class="card ver-card" href="version-c.html">
+        <div class="ver-card__top vt-c"><span class="ver-card__letter">C</span></div>
+        <div class="ver-card__body">
+          <div class="ver-card__name">雜誌精簡</div>
+          <div class="ver-card__strap">B 的精簡版 · 主欄＋側欄</div>
+          <p class="ver-card__desc">和 B 同樣的雜誌風格與內容，但用<strong>主欄＋右側欄</strong>把「我是小主播影片、多文本讀報、公告」收進側欄，<strong>頁面明顯變短</strong>、一眼看得完。</p>
+          <div class="ver-card__for"><b>適合：</b>喜歡 B 的質感、但希望首頁不要太長</div>
+          <span class="btn" style="align-self:flex-start">開啟版本 C →</span>
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -110,10 +121,10 @@
     <div class="howto">
       <h2>🗣 開會這樣用</h2>
       <ol>
-        <li>兩個版本輪流打開，請老師先憑直覺挑「順眼」的方向。</li>
+        <li>三個版本輪流打開，請老師先憑直覺挑「順眼」的方向（B 完整、C 是 B 的精簡版）。</li>
         <li>點右下角 <kbd>⚙ 自由拼版面</kbd>：勾選／取消可<strong>開關區塊</strong>，拖曳 <kbd>⠿</kbd> 可<strong>調整區塊上下順序</strong>，當場拼出想要的首頁；面板即時顯示剩幾個區塊。</li>
         <li>兩版都用同一套凌網 design-tokens，結論可直接回饋給 Rebecca／凌網當設計方向。</li>
-        <li>每頁左下角 <kbd>A / B</kbd> 可快速切換版本對照。</li>
+        <li>每頁左下角 <kbd>A / B / C</kbd> 可快速切換版本對照。</li>
       </ol>
       <p style="margin:16px 0 0;font-size:13px;color:var(--color-neutral-30)">＊ 畫面為擬真假資料（書名、活動、公告皆為示意），<strong>Banner 不放尚難取得的統計數字</strong>。站名「臺北市智慧閱讀網」為暫定 placeholder。YouTube（我是小主播／小小說書人）為深耕網官方頻道實際影片。</p>
     </div>
