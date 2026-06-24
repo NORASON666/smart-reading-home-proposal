@@ -1,0 +1,25 @@
+/* ============================================================
+   凌網 spec 圖片增補層（非侵入）
+   原 mockup 的書封／活動／成果都是 .cv1–.cv8 純色佔位框，
+   這裡用真實主題照覆蓋，方便會議時「看得出畫面感」。
+   ＊僅供預覽示意，書名仍為凌網 mockup 原內容。
+   ============================================================ */
+.cv1, .cv2, .cv3, .cv4, .cv5, .cv6, .cv7, .cv8 {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+.cv1 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-mountain.jpg') !important; }
+.cv2 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-sea.jpg') !important; }
+.cv3 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-tree.jpg') !important; }
+.cv4 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-stars.jpg') !important; }
+.cv5 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-coral.jpg') !important; }
+.cv6 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-river.jpg') !important; }
+.cv7 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/book-city.jpg') !important; }
+.cv8 { background-image: linear-gradient(180deg, rgba(8,16,32,.18), rgba(8,16,32,.52)), url('../assets/img/act-library.jpg') !important; }
+
+/* 活動／成果卡片上的白字需要更強一點的暗化（這些卡片文字壓在色塊上）*/
+.event-card .cv1, .event-card .cv2, .event-card .cv3, .event-card .cv4,
+.event-card .cv5, .event-card .cv6, .event-card .cv7, .event-card .cv8 {
+  background-blend-mode: normal;
+}

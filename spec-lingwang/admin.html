@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智慧閱讀平台｜後台管理</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-tokens.css">
+<style>
+:root {
+  --adm:     var(--color-primary-50);
+  --adm-dk:  var(--color-primary-30);
+  --adm-lt:  var(--color-primary-70);
+  --adm-mid: var(--color-secondary-100);
+}
+*{ font-family:var(--font-face); box-sizing:border-box; }
+body{ margin:0; background:var(--color-neutral-80); }
+
+/* ── Sidebar ── */
+.sidebar{ position:fixed; left:0; top:0; bottom:0; width:232px; background:var(--color-neutral-100); border-right:1px solid var(--color-neutral-60); overflow-y:auto; z-index:40; display:flex; flex-direction:column; }
+.sidebar::-webkit-scrollbar{ width:3px; }
+.sidebar::-webkit-scrollbar-thumb{ background:var(--color-neutral-60); border-radius:2px; }
+.nav-item{ display:flex; align-items:center; gap:9px; padding:8px 12px; border-radius:var(--radius-def); margin:1px 8px; color:var(--color-neutral-30); font-size:var(--font-size-12); font-weight:500; cursor:pointer; transition:all .15s; user-select:none; }
+.nav-item:hover{ background:var(--color-neutral-80); color:var(--color-neutral-10); }
+.nav-item.active{ background:var(--color-primary-70); color:var(--color-primary-50); font-weight:var(--font-weight-bold); }
+.nav-item svg{ flex-shrink:0; width:15px; height:15px; }
+.nav-section{ font-size:10px; font-weight:var(--font-weight-bold); color:var(--color-neutral-40); text-transform:uppercase; letter-spacing:.08em; padding:14px 20px 4px; }
+
+/* ── Main ── */
+.main{ margin-left:232px; min-height:100vh; }
+.topbar{ position:sticky; top:0; z-index:30; background:var(--color-neutral-100); border-bottom:1px solid var(--color-neutral-60); padding:0 28px; height:52px; display:flex; align-items:center; justify-content:space-between; }
+
+/* ── Pages ── */
+.page{ display:none; padding:28px; }
+.page.active{ display:block; }
+
+/* ── Table ── */
+.tbl{ width:100%; border-collapse:collapse; font-size:var(--font-size-14); }
+.tbl th{ background:var(--color-neutral-80); color:var(--color-neutral-30); font-weight:var(--font-weight-bold); font-size:11px; text-transform:uppercase; letter-spacing:.04em; padding:10px 14px; text-align:left; border-bottom:1px solid var(--color-neutral-60); white-space:nowrap; }
+.tbl td{ padding:11px 14px; border-bottom:1px solid var(--color-neutral-70); color:var(--color-neutral-10); vertical-align:middle; }
+.tbl tr:last-child td{ border-bottom:none; }
+.tbl tr:hover td{ background:var(--color-neutral-80); }
+
+/* ── Badges ── */
+.badge{ display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:var(--font-weight-bold); white-space:nowrap; }
+.badge-on{ background:#dcfce7; color:#16a34a; }
+.badge-off{ background:var(--color-neutral-80); color:var(--color-neutral-40); }
+.badge-pin{ background:var(--color-primary-70); color:var(--color-primary-50); }
+.badge-wait{ background:#fef3c7; color:#b45309; }
+.badge-blue{ background:var(--color-info-light); color:var(--color-info-dark); }
+.badge-auto{ background:var(--color-success-light); color:var(--color-success-dark); font-size:10px; }
+.badge-manual{ background:var(--color-primary-70); color:var(--color-primary-50); font-size:10px; }
+.badge-sched{ background:var(--color-info-light); color:var(--color-info-dark); }
+
+/* ── Buttons ── */
+.btn-pri{ background:var(--adm); color:var(--color-neutral-100); border:none; padding:var(--spacing-sm) var(--spacing-lg); border-radius:var(--radius-def); font-size:var(--font-size-14); font-weight:var(--font-weight-bold); cursor:pointer; transition:opacity .15s; font-family:inherit; white-space:nowrap; }
+.btn-pri:hover{ opacity:.88; }
+.btn-sec{ background:var(--color-neutral-100); border:1px solid var(--color-neutral-60); color:var(--color-neutral-10); padding:var(--spacing-xs) var(--spacing-md); border-radius:var(--radius-sm); font-size:var(--font-size-12); font-weight:500; cursor:pointer; transition:all .15s; font-family:inherit; white-space:nowrap; }
+.btn-sec:hover{ border-color:var(--adm); color:var(--adm); }
+.btn-danger{ background:var(--color-neutral-100); border:1px solid #fca5a5; color:var(--color-error-dark); padding:var(--spacing-xs) var(--spacing-md); border-radius:var(--radius-sm); font-size:var(--font-size-12); font-weight:500; cursor:pointer; transition:all .15s; font-family:inherit; white-space:nowrap; }
+.btn-danger:hover{ background:var(--color-error-light); }
+.btn-link{ background:none; border:none; color:var(--adm); font-size:var(--font-size-12); font-weight:var(--font-weight-bold); cursor:pointer; padding:0; font-family:inherit; text-decoration:underline; text-underline-offset:2px; }
+
+/* ── Form ── */
+.flabel{ display:block; font-size:var(--font-size-12); font-weight:var(--font-weight-bold); color:var(--color-neutral-10); margin-bottom:4px; }
+.finput{ width:100%; padding:8px 11px; border:1px solid var(--color-neutral-60); border-radius:var(--radius-def); font-size:var(--font-size-14); outline:none; transition:border-color .15s; font-family:inherit; background:var(--color-neutral-100); }
+.finput:focus{ border-color:var(--adm); box-shadow:0 0 0 3px rgba(4,99,184,.1); }
+select.finput{ cursor:pointer; }
+
+/* ── Modal ── */
+.overlay{ position:fixed; inset:0; background:var(--color-opacity-black-30); z-index:200; display:flex; align-items:center; justify-content:center; padding:16px; }
+.modal{ background:var(--color-neutral-100); border-radius:var(--radius-lg); padding:28px; width:520px; max-width:100%; max-height:85vh; overflow-y:auto; box-shadow:var(--shadow-100); }
+.modal h3{ font-size:var(--font-size-16); font-weight:var(--font-weight-black); color:var(--color-neutral-0); margin:0 0 20px; }
+
+/* ── Tab ── */
+.tab-bar{ display:flex; border-bottom:2px solid var(--color-neutral-60); margin-bottom:20px; }
+.tab-btn{ padding:9px 18px; font-size:var(--font-size-14); font-weight:500; color:var(--color-neutral-30); border:none; border-bottom:2px solid transparent; margin-bottom:-2px; cursor:pointer; background:none; font-family:inherit; transition:all .15s; }
+.tab-btn.active{ color:var(--adm); border-bottom-color:var(--adm); font-weight:var(--font-weight-bold); }
+
+/* ── Stat card ── */
+.stat-card{ background:var(--color-neutral-100); border:1px solid var(--color-neutral-60); border-radius:var(--radius-med); padding:20px 24px; }
+
+/* ── Route badge ── */
+.route-tag{ font-size:11px; font-weight:var(--font-weight-bold); color:var(--adm); background:var(--adm-lt); padding:2px 8px; border-radius:var(--radius-sm); font-family:monospace; }
+
+/* ── Card ── */
+.card{ background:var(--color-neutral-100); border:1px solid var(--color-neutral-60); border-radius:var(--radius-med); overflow:hidden; }
+.card-header{ padding:16px 20px; border-bottom:1px solid var(--color-neutral-70); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.card-header h2{ font-size:var(--font-size-14); font-weight:var(--font-weight-bold); color:var(--color-neutral-0); margin:0; }
+
+/* ── Toggle switch ── */
+.toggle{ width:36px; height:20px; border-radius:999px; border:none; cursor:pointer; position:relative; transition:background .2s; flex-shrink:0; }
+.toggle.on{ background:var(--color-success-dark); }
+.toggle.off{ background:var(--color-neutral-60); }
+.toggle::after{ content:''; position:absolute; top:3px; width:14px; height:14px; background:var(--color-neutral-100); border-radius:50%; transition:left .2s; }
+.toggle.on::after{ left:19px; }
+.toggle.off::after{ left:3px; }
+
+/* ── Table action cell ── */
+.tbl-op{ display:flex; gap:var(--spacing-xs); align-items:center; flex-wrap:nowrap; }
+
+/* ── Toast ── */
+#toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--color-neutral-0); color:var(--color-neutral-100); padding:9px 20px; border-radius:999px; font-size:var(--font-size-14); font-weight:500; z-index:999; box-shadow:var(--shadow-40); transition:opacity .25s; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside class="sidebar">
+  <!-- Logo -->
+  <div style="padding:20px 20px 16px; border-bottom:1px solid var(--color-neutral-60)">
+    <div style="font-size:13px; font-weight:900; color:var(--color-neutral-10); letter-spacing:.02em">智慧閱讀平台</div>
+    <div style="font-size:11px; color:var(--color-neutral-30); margin-top:2px">後台管理系統 · Mockup</div>
+  </div>
+
+  <!-- Role switcher -->
+  <div style="padding:12px 16px; border-bottom:1px solid var(--color-neutral-60)">
+    <div style="font-size:10px; font-weight:700; color:var(--color-neutral-40); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px">切換角色（展示）</div>
+    <select id="role-select" onchange="switchRole(this.value)" style="width:100%; background:var(--color-neutral-80); color:var(--color-neutral-10); font-size:12px; padding:6px 10px; border-radius:var(--radius-def); border:1px solid var(--color-neutral-60); outline:none; cursor:pointer; font-family:inherit">
+      <option value="sysadmin">系統管理員</option>
+      <option value="activity">活動成果管理員</option>
+      <option value="booklist">書單上架管理員</option>
+    </select>
+  </div>
+
+  <!-- Nav -->
+  <nav style="flex:1; padding:8px 0">
+    <div class="nav-section">內容管理</div>
+    <div class="nav-item active" id="nav-ab01" data-roles="booklist sysadmin" onclick="go('ab01')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      Banner 管理
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB01</span>
+    </div>
+    <div class="nav-item" id="nav-ab02" data-roles="booklist sysadmin" onclick="go('ab02')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      書單／書籍管理
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB02</span>
+    </div>
+    <div class="nav-item" id="nav-ab03" data-roles="activity sysadmin" onclick="go('ab03')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      活動管理
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB03</span>
+    </div>
+    <div class="nav-item" id="nav-ab04" data-roles="activity sysadmin" onclick="go('ab04')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      成果管理
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB04</span>
+    </div>
+    <div class="nav-item" id="nav-ab05" data-roles="activity sysadmin" onclick="go('ab05')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+      公告管理
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB05</span>
+    </div>
+
+    <div class="nav-section" style="margin-top:4px">系統管理</div>
+    <div class="nav-item" id="nav-ab06" data-roles="sysadmin" onclick="go('ab06')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+      好站連結
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB06</span>
+    </div>
+    <div class="nav-item" id="nav-ab07" data-roles="booklist activity sysadmin" onclick="go('ab07')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      多媒體資源
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB07</span>
+    </div>
+    <div class="nav-item" id="nav-ab08" data-roles="sysadmin" onclick="go('ab08')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      身分權限
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB08</span>
+    </div>
+    <div class="nav-item" id="nav-ab09" data-roles="sysadmin" onclick="go('ab09')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      統計報表
+      <span style="margin-left:auto; font-size:10px; color:var(--color-neutral-40)">AB09</span>
+    </div>
+  </nav>
+
+  <!-- Bottom user -->
+  <div style="padding:12px 16px; border-top:1px solid var(--color-neutral-60)">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px">
+      <div style="width:32px; height:32px; border-radius:var(--radius-def); background:var(--color-primary-70); display:flex; align-items:center; justify-content:center; flex-shrink:0">
+        <svg style="width:16px;height:16px;color:var(--color-primary-50)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div>
+        <div id="sidebar-name" style="font-size:12px; font-weight:700; color:var(--color-neutral-10); line-height:1.3">系統管理員</div>
+        <div style="font-size:11px; color:var(--color-neutral-30)">admin@taipei.edu.tw</div>
+      </div>
+    </div>
+    <button onclick="toast('已登出後台')" style="width:100%; display:flex; align-items:center; justify-content:center; gap:6px; padding:7px; border-radius:var(--radius-sm); color:var(--color-error-dark); font-size:12px; font-weight:500; background:transparent; border:1px solid rgba(196,0,0,.2); cursor:pointer; font-family:inherit; transition:background .15s" onmouseover="this.style.background='var(--color-error-light)'" onmouseout="this.style.background='transparent'">
+      <svg style="width:13px;height:13px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"/></svg>
+      登出後台
+    </button>
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--color-neutral-40)">
+      <span>後台</span>
+      <span>›</span>
+      <span id="breadcrumb" style="font-weight:600; color:var(--color-neutral-10)">Banner 管理</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px">
+      <span id="route-badge" class="route-tag">/admin/banners</span>
+      <a href="index.html" target="_blank" style="font-size:12px; color:var(--adm); display:flex; align-items:center; gap:4px; text-decoration:none; font-weight:600">
+        <svg style="width:13px;height:13px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        前台
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ AB01 Banner 管理 ══ -->
+  <div id="page-ab01" class="page active">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px">
+      <div>
+        <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">Banner 管理</h1>
+        <p style="font-size:13px; color:var(--color-neutral-30); margin:0">管理首頁輪播橫幅，支援上下架與排序設定。</p>
+      </div>
+      <button class="btn-pri" onclick="openModal('modal-banner')">+ 新增 Banner</button>
+    </div>
+
+    <div class="card">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th style="width:64px">預覽</th>
+            <th>標題說明</th>
+            <th style="width:56px">排序</th>
+            <th style="width:160px">展示期間</th>
+            <th style="width:120px">最後更新</th>
+            <th style="width:120px">狀態</th>
+            <th style="width:170px">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1：排程中（開始時間尚未到） -->
+          <tr>
+            <td><div style="width:64px;height:36px;border-radius:6px;background:linear-gradient(135deg,#1a1a2e,#0f3460);"></div></td>
+            <td><div style="font-weight:600;color:var(--color-neutral-0);font-size:13px">2026 暑期閱讀挑戰</div></td>
+            <td><span style="font-weight:700;color:var(--color-neutral-10)">1</span></td>
+            <td><span style="font-size:12px;color:var(--color-neutral-20)">2026-07-01 ~ 2026-08-31</span></td>
+            <td>
+              <div style="font-size:12px;color:var(--color-neutral-10);font-weight:500">2026-05-30</div>
+              <div style="font-size:11px;color:var(--color-neutral-40);margin-top:1px">陳管理員</div>
+            </td>
+            <td><div style="display:flex;align-items:center;gap:6px">
+              <button class="toggle on" onclick="toggleBtn(this)" title="點擊下架"></button>
+              <span class="badge badge-sched">排程中</span>
+            </div></td>
+            <td><div class="tbl-op">
+              <button class="btn-sec" onclick="openModal('modal-banner')">編輯</button>
+              <button class="btn-sec" onclick="copyBanner()" title="直接開啟編輯 Modal，預填圖片與連結，展示期間需重新設定">複製</button>
+            </div></td>
+          </tr>
+          <!-- Row 2：上架中（無結束時間） -->
+          <tr>
+            <td><div style="width:64px;height:36px;border-radius:6px;background:linear-gradient(135deg,#7c3aed,#4f46e5);"></div></td>
+            <td><div style="font-weight:600;color:var(--color-neutral-0);font-size:13px">智慧閱讀平台正式上線</div></td>
+            <td><span style="font-weight:700;color:var(--color-neutral-10)">2</span></td>
+            <td><span style="font-size:12px;color:var(--color-neutral-20)">2026-05-01 起</span></td>
+            <td>
+              <div style="font-size:12px;color:var(--color-neutral-10);font-weight:500">2026-05-01</div>
+              <div style="font-size:11px;color:var(--color-neutral-40);margin-top:1px">林書單員</div>
+            </td>
+            <td><div style="display:flex;align-items:center;gap:6px">
+              <button class="toggle on" onclick="toggleBtn(this)" title="點擊下架"></button>
+              <span class="badge badge-on">上架中</span>
+            </div></td>
+            <td><div class="tbl-op">
+              <button class="btn-sec" onclick="openModal('modal-banner')">編輯</button>
+              <button class="btn-sec" onclick="copyBanner()" title="直接開啟編輯 Modal，預填圖片與連結，展示期間需重新設定">複製</button>
+            </div></td>
+          </tr>
+          <!-- Row 3：上架中（有結束時間） -->
+          <tr>
+            <td><div style="width:64px;height:36px;border-radius:6px;background:linear-gradient(135deg,#059669,#0284c7);"></div></td>
+            <td><div style="font-weight:600;color:var(--color-neutral-0);font-size:13px">電子書創作徵件活動</div></td>
+            <td><span style="font-weight:700;color:var(--color-neutral-10)">3</span></td>
+            <td><span style="font-size:12px;color:var(--color-neutral-20)">2026-06-01 ~ 2026-09-30</span></td>
+            <td>
+              <div style="font-size:12px;color:var(--color-neutral-10);font-weight:500">2026-04-15</div>
+              <div style="font-size:11px;color:var(--color-neutral-40);margin-top:1px">陳管理員</div>
+            </td>
+            <td><div style="display:flex;align-items:center;gap:6px">
+              <button class="toggle on" onclick="toggleBtn(this)" title="點擊下架"></button>
+              <span class="badge badge-on">上架中</span>
+            </div></td>
+            <td><div class="tbl-op">
+              <button class="btn-sec" onclick="openModal('modal-banner')">編輯</button>
+              <button class="btn-sec" onclick="copyBanner()" title="直接開啟編輯 Modal，預填圖片與連結，展示期間需重新設定">複製</button>
+            </div></td>
+          </tr>
+          <!-- Row 4：下架（toggle 不可直接切換為上架） -->
+          <tr>
+            <td><div style="width:64px;height:36px;border-radius:6px;background:var(--color-neutral-60);"></div></td>
+            <td><div style="font-weight:600;color:var(--color-neutral-40);font-size:13px">閱讀嘉年華（舊）</div></td>
+            <td><span style="font-weight:700;color:var(--color-neutral-40)">4</span></td>
+            <td><span style="font-size:12px;color:var(--color-neutral-60)">—</span></td>
+            <td>
+              <div style="font-size:12px;color:var(--color-neutral-40);font-weight:500">2025-12-01</div>
+              <div style="font-size:11px;color:var(--color-neutral-60);margin-top:1px">林書單員</div>
+            </td>
+            <td><div style="display:flex;align-items:center;gap:6px">
+              <button class="toggle off" onclick="toast('請進入「編輯」設定展示期間後上架')" title="上架請進入編輯設定時間" style="cursor:not-allowed;opacity:0.5"></button>
+              <span class="badge badge-off">下架</span>
+            </div></td>
+            <td><div class="tbl-op">
+              <button class="btn-sec" onclick="openModal('modal-banner')">編輯</button>
+              <button class="btn-sec" onclick="copyBanner()" title="直接開啟編輯 Modal，預填圖片與連結，展示期間需重新設定">複製</button>
+              <button class="btn-danger" onclick="confirmDel('此 Banner')">刪除</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--color-neutral-40);margin-top:10px">排序號碼重複時，以後儲存者為準，前一筆自動遞補。</p>
+  </div>
+
+  <!-- ══ AB02 書單／書籍管理 ══ -->
+  <div id="page-ab02" class="page">
+    <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 16px">書單／書籍管理</h1>
+    <div class="tab-bar">
+      <button id="ab02-tab-booklist" class="tab-btn active" onclick="switchAB02Tab('booklist')">主題書單</button>
+      <button id="ab02-tab-creation" class="tab-btn" onclick="switchAB02Tab('creation')">學生創作電子書</button>
+    </div>
+
+    <!-- 主題書單 tab -->
+    <div id="ab02-booklist">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px">
+        <p style="font-size:13px; color:var(--color-neutral-30); margin:0">本週選書 / 熱門書單由排程自動更新，僅主題書展可手動建立與編輯。</p>
+        <button class="btn-pri" onclick="openModal('modal-booklist')">+ 新增主題書單</button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr><th>書單名稱</th><th>類型</th><th>書目數</th><th>狀態</th><th>來源</th><th style="width:140px">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">本月精選：自然探索</td>
+              <td><span class="badge badge-blue">本週選書</span></td>
+              <td>6</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-auto">自動</span></td>
+              <td><button class="btn-sec" onclick="toast('本週選書由排程自動維護，不可編輯')">查看</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">本月最多人借閱</td>
+              <td><span class="badge badge-blue">熱門書單</span></td>
+              <td>6</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-auto">自動</span></td>
+              <td><button class="btn-sec" onclick="toast('熱門書單由排程自動維護，不可編輯')">查看</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">自然科學小百科</td>
+              <td><span style="background:var(--color-primary-70);color:var(--color-primary-50)" class="badge">主題書展</span></td>
+              <td>12</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-manual">手動</span></td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="openModal('modal-booklist')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('自然科學小百科')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">友情與勇氣</td>
+              <td><span style="background:var(--color-primary-70);color:var(--color-primary-50)" class="badge">主題書展</span></td>
+              <td>8</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-manual">手動</span></td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="openModal('modal-booklist')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('友情與勇氣')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-40)">暑期精選（草稿）</td>
+              <td><span style="background:var(--color-primary-70);color:var(--color-primary-50)" class="badge">主題書展</span></td>
+              <td>0</td>
+              <td><button class="toggle off" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-manual">手動</span></td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="openModal('modal-booklist')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('暑期精選')">刪除</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 學生創作電子書 tab -->
+    <div id="ab02-creation" class="hidden">
+      <p style="font-size:13px; color:var(--color-neutral-30); margin:0 0 16px">顯示所有教師已審核通過的學生電子書作品。可手動切換公開 / 下架；每季由管理員手動執行 HyRead 上架送件，完成後標記「已上架」。</p>
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+        <input class="finput" style="width:220px" placeholder="搜尋書名 / 作者…" type="search">
+        <select class="finput" style="width:130px">
+          <option>全部狀態</option>
+          <option>公開</option>
+          <option>已下架</option>
+        </select>
+        <select class="finput" style="width:150px">
+          <option>HyRead 全部</option>
+          <option>未申請</option>
+          <option>待上架</option>
+          <option>已上架</option>
+        </select>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr><th>書名</th><th>作者 / 班級</th><th>審核教師</th><th>通過日期</th><th>公開狀態</th><th>HyRead</th><th style="width:90px">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><button class="btn-link" onclick="toast('開啟 PDF 預覽…')">太空探索日記</button></td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">李美麗・六年二班</td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">王老師</td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-10</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-wait">待上架</span></td>
+              <td><button class="btn-sec" onclick="toast('已標記為已上架')">標記已上架</button></td>
+            </tr>
+            <tr>
+              <td><button class="btn-link" onclick="toast('開啟 PDF 預覽…')">我的小花園</button></td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">陳小芳・四年甲班</td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">李老師</td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-04-22</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-off">未申請</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><button class="btn-link" onclick="toast('開啟 PDF 預覽…')">恐龍探險隊</button></td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">林大維・三年乙班</td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">王老師</td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-03-15</td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-on">已上架</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><button class="btn-link" onclick="toast('開啟 PDF 預覽…')">海洋奇遇記</button></td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">黃小美・五年甲班</td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">李老師</td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">2026-02-28</td>
+              <td><button class="toggle off" onclick="toggleBtn(this)"></button></td>
+              <td><span class="badge badge-off">未申請</span></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ AB03 活動管理 ══ -->
+  <div id="page-ab03" class="page">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px">
+      <div>
+        <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">活動管理</h1>
+        <p style="font-size:13px; color:var(--color-neutral-30); margin:0">建立、編輯各類活動，可設定目標年級、封面圖、附件與外部連結。</p>
+      </div>
+      <button class="btn-pri" onclick="openModal('modal-activity')">+ 新增活動</button>
+    </div>
+    <!-- Filter bar -->
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <input class="finput" style="width:240px" placeholder="搜尋活動標題…" type="search">
+      <select class="finput" style="width:140px">
+        <option>全部狀態</option>
+        <option>上架</option>
+        <option>下架</option>
+      </select>
+      <select class="finput" style="width:140px">
+        <option>全部類型</option>
+        <option>每月任務</option>
+        <option>讀書會</option>
+        <option>獎項</option>
+        <option>其他</option>
+      </select>
+    </div>
+    <div class="card">
+      <table class="tbl">
+        <thead>
+          <tr><th>標題</th><th>類型</th><th>活動日期</th><th>目標年級</th><th>狀態</th><th style="width:130px">操作</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">2026 暑期閱讀挑戰</td>
+            <td><span class="badge" style="background:#fef3c7;color:#b45309">每月任務</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-07-01 ~ 2026-08-31</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">全校</td>
+            <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-activity')">編輯</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">五月讀書會</td>
+            <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">讀書會</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-15</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">4–6 年</td>
+            <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-activity')">編輯</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">年度閱讀小達人</td>
+            <td><span class="badge" style="background:#fce7f3;color:#be185d">獎項</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-12-01</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">全校</td>
+            <td><button class="toggle off" onclick="toggleBtn(this)"></button></td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-activity')">編輯</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">電子書創作徵件</td>
+            <td><span class="badge" style="background:var(--color-neutral-70);color:var(--color-neutral-20)">其他</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-06-01 ~ 2026-09-30</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">全校</td>
+            <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-activity')">編輯</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ AB04 成果管理 ══ -->
+  <div id="page-ab04" class="page">
+    <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 16px">成果管理</h1>
+    <div class="tab-bar">
+      <button id="ab04-tab-category" class="tab-btn active" onclick="switchAB04Tab('category')">分類管理</button>
+      <button id="ab04-tab-items" class="tab-btn" onclick="switchAB04Tab('items')">成果項目</button>
+    </div>
+
+    <!-- 分類管理 tab -->
+    <div id="ab04-category">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <p style="font-size:13px;color:var(--color-neutral-30);margin:0">拖曳列調整前台 P14 分類 Tab 顯示順序；每個分類可獨立設定展示模式。</p>
+        <button class="btn-pri" onclick="toast('新增分類…')">+ 新增分類</button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr><th style="width:32px"></th><th>分類名稱</th><th>展示模式</th><th>項目數</th><th style="width:150px">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--color-neutral-40);font-size:16px;cursor:grab">⋮⋮</td>
+              <td style="font-weight:600;color:var(--color-neutral-0)">得獎成果</td>
+              <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">清單列模式</span></td>
+              <td>12</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯分類…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('得獎成果')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--color-neutral-40);font-size:16px;cursor:grab">⋮⋮</td>
+              <td style="font-weight:600;color:var(--color-neutral-0)">研習成果</td>
+              <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">清單列模式</span></td>
+              <td>8</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯分類…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('研習成果')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--color-neutral-40);font-size:16px;cursor:grab">⋮⋮</td>
+              <td style="font-weight:600;color:var(--color-neutral-0)">閱讀磐石學校</td>
+              <td><span class="badge" style="background:var(--color-primary-70);color:var(--color-primary-50)">照片 Grid 模式</span></td>
+              <td>5</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯分類…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('閱讀磐石學校')">刪除</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 成果項目 tab -->
+    <div id="ab04-items" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <select class="finput" style="width:150px">
+            <option>全部分類</option>
+            <option>得獎成果</option>
+            <option>研習成果</option>
+            <option>閱讀磐石學校</option>
+          </select>
+          <select class="finput" style="width:120px">
+            <option>全部狀態</option>
+            <option>上架</option>
+            <option>下架</option>
+          </select>
+        </div>
+        <button class="btn-pri" onclick="toast('新增成果項目…')">+ 新增成果</button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr><th>標題</th><th>分類</th><th>狀態</th><th>最後更新</th><th style="width:170px">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">115 學年度閱讀推廣競賽得獎名單</td>
+              <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">得獎成果</span></td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-20・陳主任</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('115 學年度閱讀推廣競賽得獎名單')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">閱讀教師增能研習紀錄</td>
+              <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">研習成果</span></td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-04-10・王主任</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('閱讀教師增能研習紀錄')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">北市國小閱讀磐石學校 2026</td>
+              <td><span class="badge" style="background:var(--color-primary-70);color:var(--color-primary-50)">閱讀磐石學校</span></td>
+              <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-03-01・陳主任</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('北市國小閱讀磐石學校 2026')">刪除</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-40)">114 學年度競賽成果（草稿）</td>
+              <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">得獎成果</span></td>
+              <td><button class="toggle off" onclick="toggleBtn(this)"></button></td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">2026-02-14・王主任</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('編輯…')">編輯</button>
+                <button class="btn-danger" onclick="confirmDel('114 學年度競賽成果')">刪除</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ AB05 公告管理 ══ -->
+  <div id="page-ab05" class="page">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px">
+      <div>
+        <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">公告管理</h1>
+        <p style="font-size:13px; color:var(--color-neutral-30); margin:0">新增、編輯公告，支援置頂旗標與富文本內文。</p>
+      </div>
+      <button class="btn-pri" onclick="openModal('modal-announcement')">+ 新增公告</button>
+    </div>
+    <div class="card">
+      <table class="tbl">
+        <thead>
+          <tr><th>標題</th><th>發布日期</th><th>置頂</th><th>狀態</th><th>最後編輯</th><th style="width:130px">操作</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">智慧閱讀平台正式上線公告</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-01</td>
+            <td><span class="badge badge-pin">置頂</span></td>
+            <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+            <td style="font-size:11px;color:var(--color-neutral-30)">2026-06-07 10:23<br>王小明</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-announcement')">編輯</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">2026 暑期閱讀挑戰活動公告</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-06-01</td>
+            <td><span style="font-size:11px;color:var(--color-neutral-50)">—</span></td>
+            <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+            <td style="font-size:11px;color:var(--color-neutral-30)">2026-06-05 14:08<br>陳美華</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-announcement')">編輯</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">書單更新公告（五月）</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-15</td>
+            <td><span style="font-size:11px;color:var(--color-neutral-50)">—</span></td>
+            <td><button class="toggle on" onclick="toggleBtn(this)"></button></td>
+            <td style="font-size:11px;color:var(--color-neutral-30)">2026-05-15 09:00<br>王小明</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-announcement')">編輯</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-40)">系統測試公告（舊）</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">2026-01-01</td>
+            <td><span style="font-size:11px;color:var(--color-neutral-60)">—</span></td>
+            <td><button class="toggle off" onclick="toggleBtn(this)"></button></td>
+            <td style="font-size:11px;color:var(--color-neutral-50)">2026-01-10 16:45<br>陳美華</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-announcement')">編輯</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ AB06 好站連結 ══ -->
+  <div id="page-ab06" class="page">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px">
+      <div>
+        <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">好站連結管理</h1>
+        <p style="font-size:13px; color:var(--color-neutral-30); margin:0">管理前台「好站連結」清單，依建立時間由舊到新顯示。</p>
+      </div>
+      <button class="btn-pri" onclick="openModal('modal-link')">+ 新增連結</button>
+    </div>
+    <div class="card">
+      <table class="tbl">
+        <thead>
+          <tr><th>連結名稱</th><th>網址</th><th style="width:110px">建立時間</th><th style="width:130px">操作</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">EbookTaipei 電子書館</td>
+            <td style="font-size:12px;color:var(--adm)">tpml.ebook.hyread.com.tw</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">2026-01-10</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-link')">編輯</button><button class="btn-danger" onclick="confirmDel('EbookTaipei 電子書館')">刪除</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">臺北市政府教育局</td>
+            <td style="font-size:12px;color:var(--adm)">www.doe.taipei.gov.tw</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">2026-01-11</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-link')">編輯</button><button class="btn-danger" onclick="confirmDel('臺北市政府教育局')">刪除</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">國立臺灣圖書館</td>
+            <td style="font-size:12px;color:var(--adm)">www.ntl.edu.tw</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">2026-01-12</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-link')">編輯</button><button class="btn-danger" onclick="confirmDel('國立臺灣圖書館')">刪除</button></div></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">教育部語文成就獎</td>
+            <td style="font-size:12px;color:var(--adm)">depart.moe.edu.tw/ED2700/</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">2026-01-15</td>
+            <td><div class="tbl-op"><button class="btn-sec" onclick="openModal('modal-link')">編輯</button><button class="btn-danger" onclick="confirmDel('教育部語文成就獎')">刪除</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ AB07 多媒體資源 ══ -->
+  <div id="page-ab07" class="page">
+    <div style="margin-bottom:20px">
+      <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">多媒體資源管理</h1>
+      <p style="font-size:13px; color:var(--color-neutral-30); margin:0">集中管理所有後台上傳的圖片與 PDF 附件。仍有關聯的附件無法刪除。</p>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <select class="finput" style="width:130px">
+        <option>全部類型</option>
+        <option>圖片</option>
+        <option>PDF</option>
+      </select>
+      <select class="finput" style="width:150px">
+        <option>全部模組</option>
+        <option>活動</option>
+        <option>成果</option>
+        <option>公告</option>
+        <option>書單</option>
+        <option>無關聯</option>
+      </select>
+    </div>
+    <div class="card">
+      <table class="tbl">
+        <thead>
+          <tr><th>檔案名稱</th><th>類型</th><th>關聯模組</th><th>關聯項目</th><th>上傳日期</th><th>大小</th><th style="width:90px">操作</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size:12px;font-weight:600;color:var(--color-neutral-0);font-family:monospace">banner-summer-2026.jpg</td>
+            <td><span class="badge" style="background:#e0f2fe;color:#0369a1">圖片</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">Banner</td>
+            <td style="font-size:12px;color:var(--adm)">2026 暑期閱讀挑戰</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-30</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">1.2 MB</td>
+            <td><button class="btn-danger" onclick="toast('⚠ 此附件仍有關聯，請先移除關聯再刪除')" style="font-size:11px">刪除</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;font-weight:600;color:var(--color-neutral-0);font-family:monospace">activity-cover-reading.jpg</td>
+            <td><span class="badge" style="background:#e0f2fe;color:#0369a1">圖片</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">活動</td>
+            <td style="font-size:12px;color:var(--adm)">五月讀書會</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-10</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">0.8 MB</td>
+            <td><button class="btn-danger" onclick="toast('⚠ 此附件仍有關聯，請先移除關聯再刪除')" style="font-size:11px">刪除</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;font-weight:600;color:var(--color-neutral-0);font-family:monospace">announcement-rules.pdf</td>
+            <td><span class="badge" style="background:#fef3c7;color:#b45309">PDF</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">公告</td>
+            <td style="font-size:12px;color:var(--adm)">暑期閱讀挑戰公告</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-06-01</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2.1 MB</td>
+            <td><button class="btn-danger" onclick="toast('⚠ 此附件仍有關聯，請先移除關聯再刪除')" style="font-size:11px">刪除</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;font-weight:600;color:var(--color-neutral-0);font-family:monospace">booklist-nature-banner.jpg</td>
+            <td><span class="badge" style="background:#e0f2fe;color:#0369a1">圖片</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">書單</td>
+            <td style="font-size:12px;color:var(--adm)">自然科學小百科</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-04-15</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">0.6 MB</td>
+            <td><button class="btn-danger" onclick="toast('⚠ 此附件仍有關聯，請先移除關聯再刪除')" style="font-size:11px">刪除</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;font-weight:600;color:var(--color-neutral-40);font-family:monospace">orphan-temp-upload.jpg</td>
+            <td><span class="badge" style="background:#e0f2fe;color:#0369a1">圖片</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">—</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">無關聯</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">2026-01-10</td>
+            <td style="font-size:12px;color:var(--color-neutral-40)">0.4 MB</td>
+            <td><button class="btn-danger" onclick="confirmDel('orphan-temp-upload.jpg')" style="font-size:11px">刪除</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ AB08 身分權限 ══ -->
+  <div id="page-ab08" class="page">
+    <div style="margin-bottom:20px">
+      <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">身分權限管理</h1>
+      <p style="font-size:13px; color:var(--color-neutral-30); margin:0">管理後台帳號白名單，並定期清查連續 1 年未登入帳號。</p>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-whitelist" onclick="switchAcctTab('whitelist')">後台帳號白名單</button>
+      <button class="tab-btn" id="tab-audit" onclick="switchAcctTab('audit')">帳號清查</button>
+    </div>
+
+    <!-- Whitelist -->
+    <div id="acct-whitelist">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <input class="finput" style="width:220px" placeholder="搜尋姓名 / SSO UID…" type="search">
+        <button class="btn-pri" onclick="openModal('modal-account')">+ 新增白名單</button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr><th>姓名</th><th>SSO UID / Email</th><th>後台角色</th><th>狀態</th><th>最後登入</th><th style="width:130px">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">陳管理員</td>
+              <td style="font-size:12px;font-family:monospace;color:var(--color-neutral-20)">admin001 / admin@taipei.edu.tw</td>
+              <td><span class="badge" style="background:var(--color-primary-70);color:var(--color-primary-50)">系統管理員</span></td>
+              <td><span class="badge badge-on">啟用</span></td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-06-01</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="openModal('modal-account')">編輯</button>
+                <button class="btn-danger" onclick="toast('⚠ 不可停用當前登入帳號')">停用</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">林書單員</td>
+              <td style="font-size:12px;font-family:monospace;color:var(--color-neutral-20)">booklist001 / booklist@taipei.edu.tw</td>
+              <td><span class="badge" style="background:#e0f2fe;color:#0369a1">書單上架管理員</span></td>
+              <td><span class="badge badge-on">啟用</span></td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-28</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="openModal('modal-account')">編輯</button>
+                <button class="btn-danger" onclick="toast('已停用帳號：林書單員')">停用</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">王活動員</td>
+              <td style="font-size:12px;font-family:monospace;color:var(--color-neutral-20)">activity001 / activity@taipei.edu.tw</td>
+              <td><span class="badge" style="background:#dcfce7;color:#15803d">活動成果管理員</span></td>
+              <td><span class="badge badge-on">啟用</span></td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-25</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="openModal('modal-account')">編輯</button>
+                <button class="btn-danger" onclick="toast('已停用帳號：王活動員')">停用</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-40)">舊帳號</td>
+              <td style="font-size:12px;font-family:monospace;color:var(--color-neutral-40)">old001 / old@taipei.edu.tw</td>
+              <td><span class="badge" style="background:var(--color-neutral-70);color:var(--color-neutral-40)">書單上架管理員</span></td>
+              <td><span class="badge badge-off">停用</span></td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">2025-01-15</td>
+              <td><div class="tbl-op">
+                <button class="btn-sec" onclick="toast('已重新啟用帳號：舊帳號')">啟用</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Audit -->
+    <div id="acct-audit" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <p style="font-size:13px;color:var(--color-neutral-30);margin:0">連續 <strong style="color:var(--color-error-dark)">365 天</strong>以上未登入的帳號，系統每日自動標記為「待停用」。</p>
+        <button class="btn-sec" onclick="toast('匯出帳號管制表…')">
+          <svg style="width:13px;height:13px;display:inline;margin-right:4px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          匯出管制表
+        </button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr><th>姓名</th><th>角色</th><th>最後登入</th><th>未登入天數</th><th>狀態</th><th style="width:140px">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">古老師</td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">教師</td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2024-12-15</td>
+              <td><span style="font-weight:700;color:var(--color-error-dark);font-size:13px">168 天</span></td>
+              <td><span class="badge badge-wait">待停用</span></td>
+              <td><div class="tbl-op">
+                <button class="btn-danger" onclick="toast('已停用：古老師')">停用</button>
+                <button class="btn-sec" onclick="toast('已保留：古老師')">保留</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-0)">陳同學</td>
+              <td style="font-size:12px;color:var(--color-neutral-20)">學生</td>
+              <td style="font-size:12px;color:var(--color-neutral-30)">2024-09-01</td>
+              <td><span style="font-weight:700;color:var(--color-error-dark);font-size:13px">273 天</span></td>
+              <td><span class="badge badge-wait">待停用</span></td>
+              <td><div class="tbl-op">
+                <button class="btn-danger" onclick="toast('已停用：陳同學')">停用</button>
+                <button class="btn-sec" onclick="toast('已保留：陳同學')">保留</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;color:var(--color-neutral-40)">舊書單員</td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">書單上架管理員</td>
+              <td style="font-size:12px;color:var(--color-neutral-40)">2024-06-01</td>
+              <td><span style="font-weight:700;color:var(--color-neutral-40);font-size:13px">365 天</span></td>
+              <td><span class="badge badge-off">已停用</span></td>
+              <td><button class="btn-sec" onclick="toast('已重新啟用帳號')">啟用</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ AB09 統計報表 ══ -->
+  <div id="page-ab09" class="page">
+    <div style="margin-bottom:20px">
+      <h1 style="font-size:20px; font-weight:900; color:var(--color-neutral-0); margin:0 0 4px">統計報表</h1>
+      <p style="font-size:13px; color:var(--color-neutral-30); margin:0">資料每日 00:30 批次更新，最後更新：2026-06-01 00:31</p>
+    </div>
+
+    <!-- Date filter -->
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:24px;padding:14px 16px;background:var(--color-neutral-100);border:1px solid var(--color-neutral-60);border-radius:var(--radius-med)">
+      <span style="font-size:12px;font-weight:600;color:var(--color-neutral-20)">日期區間</span>
+      <input type="date" class="finput" style="width:145px" value="2026-05-01">
+      <span style="color:var(--color-neutral-40);font-size:13px">—</span>
+      <input type="date" class="finput" style="width:145px" value="2026-06-01">
+      <button class="btn-pri" style="padding:7px 20px" onclick="toast('套用篩選…')">套用</button>
+    </div>
+
+    <!-- 活動參與統計 -->
+    <h2 style="font-size:14px;font-weight:700;color:var(--color-neutral-0);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--color-neutral-60)">活動參與統計</h2>
+    <div class="card" style="margin-bottom:24px">
+      <table class="tbl">
+        <thead>
+          <tr><th>活動名稱</th><th>類型</th><th>活動期間</th><th style="text-align:right">參與人次</th><th style="text-align:right">書目點擊量</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">2026 暑期閱讀挑戰</td>
+            <td><span class="badge" style="background:#fef3c7;color:#b45309">每月任務</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-07-01~08-31</td>
+            <td style="text-align:right;font-weight:700;font-size:15px;color:var(--adm)">142</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">3,218</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">五月讀書會</td>
+            <td><span class="badge" style="background:var(--color-info-light);color:var(--color-info-dark)">讀書會</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-05-15</td>
+            <td style="text-align:right;font-weight:700;font-size:15px;color:var(--adm)">56</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">891</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">電子書創作徵件</td>
+            <td><span class="badge" style="background:var(--color-neutral-70);color:var(--color-neutral-20)">其他</span></td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">2026-06-01~09-30</td>
+            <td style="text-align:right;font-weight:700;font-size:15px;color:var(--adm)">38</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">477</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 互動行為統計 -->
+    <h2 style="font-size:14px;font-weight:700;color:var(--color-neutral-0);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--color-neutral-60)">互動行為統計</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+      <div class="stat-card">
+        <div style="font-size:11px;font-weight:600;color:var(--color-neutral-30);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">收藏次數</div>
+        <div style="font-size:28px;font-weight:900;color:var(--adm)">2,841</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;font-weight:600;color:var(--color-neutral-30);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">分享次數</div>
+        <div style="font-size:28px;font-weight:900;color:#0284c7">567</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;font-weight:600;color:var(--color-neutral-30);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">評分次數</div>
+        <div style="font-size:28px;font-weight:900;color:#d97706">1,203</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:11px;font-weight:600;color:var(--color-neutral-30);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">頁面點擊量</div>
+        <div style="font-size:28px;font-weight:900;color:#059669">14,829</div>
+      </div>
+    </div>
+
+    <!-- 使用者閱讀統計 -->
+    <h2 style="font-size:14px;font-weight:700;color:var(--color-neutral-0);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--color-neutral-60)">使用者閱讀統計</h2>
+    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <select class="finput" style="width:130px"><option>全部學校</option><option>蓬萊國小</option></select>
+      <select class="finput" style="width:120px"><option>全部年級</option><option>三年</option><option>四年</option><option>五年</option><option>六年</option></select>
+    </div>
+    <div class="card">
+      <table class="tbl">
+        <thead>
+          <tr><th>姓名</th><th>年級 / 班級</th><th style="text-align:right">累積閱讀本數</th><th style="text-align:right">收藏書籍</th><th style="width:90px">詳情</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">王小明</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">六年二班</td>
+            <td style="text-align:right;font-weight:700;color:var(--adm)">12</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">5</td>
+            <td><button class="btn-link" onclick="toast('查看王小明收藏清單…')">查看</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">陳小芳</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">五年甲班</td>
+            <td style="text-align:right;font-weight:700;color:var(--adm)">9</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">3</td>
+            <td><button class="btn-link" onclick="toast('查看陳小芳收藏清單…')">查看</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">林大維</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">五年乙班</td>
+            <td style="text-align:right;font-weight:700;color:var(--adm)">7</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">2</td>
+            <td><button class="btn-link" onclick="toast('查看林大維收藏清單…')">查看</button></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--color-neutral-0)">黃小美</td>
+            <td style="font-size:12px;color:var(--color-neutral-30)">四年甲班</td>
+            <td style="text-align:right;font-weight:700;color:var(--adm)">4</td>
+            <td style="text-align:right;font-weight:600;color:var(--color-neutral-10)">1</td>
+            <td><button class="btn-link" onclick="toast('查看黃小美收藏清單…')">查看</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:12px 16px;border-top:1px solid #f1f5f9;display:flex;justify-content:center;gap:4px">
+        <button style="width:32px;height:32px;border-radius:6px;background:var(--adm);color:var(--color-neutral-100);border:none;font-size:var(--font-size-12);font-weight:var(--font-weight-bold);cursor:pointer">1</button>
+        <button class="btn-sec" style="width:32px;height:32px;padding:0;font-size:12px">2</button>
+        <button class="btn-sec" style="width:32px;height:32px;padding:0;font-size:12px">3</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══════════ MODALS ══════════ -->
+
+<!-- Banner 新增/編輯 -->
+<div id="modal-banner" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-banner')">
+  <div class="modal">
+    <h3>新增 Banner</h3>
+    <div style="display:grid;gap:16px">
+      <!-- 複製提示（複製時顯示） -->
+      <div id="banner-copy-note" style="display:none;background:var(--color-info-light);border:1px solid var(--color-info-dark);border-radius:var(--radius-def);padding:10px 14px;font-size:var(--font-size-12);color:var(--color-info-dark)">
+        📋 已複製原 Banner 的圖片與連結。請重新設定展示期間後儲存，預設狀態為「下架」。
+      </div>
+      <!-- 標題說明 -->
+      <div>
+        <label class="flabel">標題說明 <span style="color:var(--color-error-dark)">*</span></label>
+        <input class="finput" placeholder="後台識別用，不顯示於前台（例：2026 暑期閱讀挑戰）">
+      </div>
+      <!-- 圖片 -->
+      <div>
+        <label class="flabel">圖片 <span style="color:var(--color-error-dark)">*</span></label>
+        <!-- 複製時顯示：已帶入原圖 -->
+        <div id="banner-img-preview" style="display:none;border:1px solid var(--color-neutral-60);border-radius:10px;overflow:hidden;position:relative">
+          <div style="background:var(--color-neutral-70);height:90px;display:flex;align-items:center;justify-content:center;color:var(--color-neutral-30);font-size:12px;gap:8px">
+            <span>🖼</span><span>banner_summer_2026.jpg（已帶入，可重新上傳替換）</span>
+          </div>
+          <button onclick="toast('選擇圖片…')" style="position:absolute;top:8px;right:8px;font-size:11px;background:var(--color-neutral-10);color:var(--color-neutral-100);border:none;border-radius:var(--radius-sm);padding:4px 10px;cursor:pointer">替換圖片</button>
+        </div>
+        <!-- 新增時顯示：上傳區域 -->
+        <div id="banner-img-upload" style="border:2px dashed #e2e8f0;border-radius:10px;padding:28px;text-align:center;color:var(--color-neutral-40);cursor:pointer;font-size:13px" onclick="toast('選擇圖片…')">
+          點擊上傳 JPG / PNG（建議 1440×480，文字請做進圖內）
+        </div>
+      </div>
+      <!-- 連結 + 排序 -->
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end">
+        <div>
+          <label class="flabel">點擊連結（選填）</label>
+          <input class="finput" type="url" placeholder="https://…">
+        </div>
+        <div style="width:80px">
+          <label class="flabel">排序 <span style="color:var(--color-error-dark)">*</span></label>
+          <input class="finput" type="number" placeholder="1" min="1">
+        </div>
+      </div>
+      <!-- 上架設定 + 展示期間 -->
+      <div>
+        <label class="flabel">上架設定 <span style="color:var(--color-neutral-30);font-weight:400">（預設下架）</span></label>
+        <div style="display:flex;gap:20px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:var(--color-neutral-10)">
+            <input type="radio" name="banner-publish" value="off" checked style="accent-color:var(--adm)"
+              onchange="document.getElementById('banner-schedule-row').style.display='none'"> 下架
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:var(--color-neutral-10)">
+            <input type="radio" name="banner-publish" value="on" style="accent-color:var(--adm)"
+              onchange="document.getElementById('banner-schedule-row').style.display='grid'"> 上架
+          </label>
+        </div>
+      </div>
+      <!-- 展示期間（選「上架」時展開，開始時間必填） -->
+      <div id="banner-schedule-row" style="display:none;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:var(--color-neutral-80);border:1px solid var(--color-neutral-60);border-radius:8px">
+        <div>
+          <label class="flabel" style="font-size:11px;color:var(--color-neutral-30);font-weight:400">開始時間 <span style="color:var(--color-error-dark)">*</span></label>
+          <input class="finput" type="datetime-local">
+        </div>
+        <div>
+          <label class="flabel" style="font-size:11px;color:var(--color-neutral-30);font-weight:400">結束時間（選填，不填則不自動下架）</label>
+          <input class="finput" type="datetime-local">
+        </div>
+        <div style="grid-column:1/-1">
+          <p style="font-size:11px;color:var(--color-neutral-40);margin:0">開始時間前狀態顯示「排程中」；到期後自動下架。開始時間若已是過去時間，儲存前將跳出確認提示。</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn-sec" onclick="closeModal('modal-banner')">取消</button>
+      <button class="btn-pri" onclick="closeModal('modal-banner');toast('✓ Banner 已儲存')">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 書單 新增/編輯 -->
+<div id="modal-booklist" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-booklist')">
+  <div class="modal">
+    <h3>新增主題書單</h3>
+    <div style="display:grid;gap:14px">
+      <div><label class="flabel">書單名稱 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" placeholder="例：暑期推薦好書" value=""></div>
+      <div><label class="flabel">說明</label><input class="finput" placeholder="一句話介紹這份書單（選填）"></div>
+      <div>
+        <label class="flabel">適讀年級標籤（空選 = 全校適用）</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">一年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">二年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--adm)">三年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--adm)">四年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--adm)">五年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--adm)">六年</label>
+        </div>
+      </div>
+      <div><label class="flabel">定時呈現時間（選填）</label><input class="finput" type="datetime-local"></div>
+      <div>
+        <label class="flabel">書目清單 <span style="color:var(--color-error-dark)">*</span>（至少 1 筆）</label>
+        <input class="finput" placeholder="搜尋書名加入…" style="margin-bottom:6px">
+        <div style="background:var(--color-neutral-80);border:1px solid var(--color-neutral-60);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--color-neutral-30)">目前已加入：0 本</div>
+      </div>
+      <div><label class="flabel">上架狀態</label><select class="finput"><option>下架</option><option>上架</option></select></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn-sec" onclick="closeModal('modal-booklist')">取消</button>
+      <button class="btn-pri" onclick="closeModal('modal-booklist');toast('✓ 書單已儲存')">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 活動 新增/編輯 -->
+<div id="modal-activity" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-activity')">
+  <div class="modal">
+    <h3>新增活動</h3>
+    <div style="display:grid;gap:14px">
+      <div><label class="flabel">標題 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" placeholder="活動名稱"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label class="flabel">類型 <span style="color:var(--color-error-dark)">*</span></label>
+          <select class="finput" id="act-type-sel" onchange="document.getElementById('kucai-row').style.display=this.value==='每月任務'?'block':'none'">
+            <option>每月任務</option><option>讀書會</option><option>獎項</option><option>其他</option>
+          </select>
+        </div>
+        <div><label class="flabel">上架狀態</label><select class="finput"><option>下架</option><option>上架</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label class="flabel">開始日期 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" type="date"></div>
+        <div><label class="flabel">結束日期（選填）</label><input class="finput" type="date"></div>
+      </div>
+      <div><label class="flabel">地點（選填）</label><input class="finput" placeholder="線上 / 學校圖書室…"></div>
+      <div>
+        <label class="flabel">目標年級（空選 = 全校適用）</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">一年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">二年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">三年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">四年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">五年</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="checkbox" style="accent-color:var(--adm)">六年</label>
+        </div>
+      </div>
+      <div id="kucai-row">
+        <label class="flabel">酷 AI 連結</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-neutral-20);cursor:pointer">
+          <input type="checkbox" style="accent-color:var(--adm)">啟用酷 AI 功能連結（僅「每月任務」類型適用）
+        </label>
+      </div>
+      <div><label class="flabel">外部連結（選填）</label><input class="finput" placeholder="https://…"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn-sec" onclick="closeModal('modal-activity')">取消</button>
+      <button class="btn-pri" onclick="closeModal('modal-activity');toast('✓ 活動已儲存')">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 公告 新增/編輯 -->
+<div id="modal-announcement" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-announcement')">
+  <div class="modal">
+    <h3>新增公告</h3>
+    <div style="display:grid;gap:14px">
+      <div><label class="flabel">標題 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" placeholder="公告標題"></div>
+      <div><label class="flabel">內文 <span style="color:var(--color-error-dark)">*</span></label>
+        <div style="border:1px solid #d1d5db;border-radius:8px;overflow:hidden">
+          <div style="background:var(--color-neutral-80);border-bottom:1px solid var(--color-neutral-60);padding:6px 10px;display:flex;gap:6px">
+            <button class="btn-sec" style="padding:3px 8px;font-size:11px">B</button>
+            <button class="btn-sec" style="padding:3px 8px;font-size:11px;font-style:italic">I</button>
+            <button class="btn-sec" style="padding:3px 8px;font-size:11px">🔗</button>
+            <button class="btn-sec" style="padding:3px 8px;font-size:11px">圖</button>
+          </div>
+          <textarea class="finput" rows="5" style="border:none;border-radius:0;resize:vertical" placeholder="公告內文（支援粗體、超連結、圖片嵌入）"></textarea>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label class="flabel">發布日期 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" type="date"></div>
+        <div><label class="flabel">上架狀態</label><select class="finput"><option>下架</option><option>上架</option></select></div>
+      </div>
+      <div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-neutral-20);cursor:pointer">
+          <input type="checkbox" style="accent-color:var(--adm)">設為置頂（is_pinned = true，前台第 1 頁頂部顯示）
+        </label>
+      </div>
+      <div>
+        <label class="flabel">附件（PDF / 圖片，可多個）</label>
+        <div style="border:2px dashed #e2e8f0;border-radius:8px;padding:16px;text-align:center;color:var(--color-neutral-40);font-size:12px;cursor:pointer" onclick="toast('選擇附件…')">點擊上傳附件</div>
+      </div>
+    </div>
+      <div style="font-size:11px;color:var(--color-neutral-40);padding:8px 10px;background:var(--color-neutral-90);border-radius:6px">
+        最後編輯：2026-06-07 14:08　由 陳美華 編輯
+      </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn-sec" onclick="closeModal('modal-announcement')">取消</button>
+      <button class="btn-pri" onclick="closeModal('modal-announcement');toast('✓ 公告已儲存')">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 好站連結 新增/編輯 -->
+<div id="modal-link" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-link')">
+  <div class="modal">
+    <h3>新增好站連結</h3>
+    <div style="display:grid;gap:14px">
+      <div><label class="flabel">連結名稱 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" placeholder="例：EbookTaipei 電子書館"></div>
+      <div><label class="flabel">網址 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" type="url" placeholder="https://…"></div>
+      <div><label class="flabel">排序 <span style="color:var(--color-error-dark)">*</span></label><input class="finput" type="number" placeholder="1" min="1"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn-sec" onclick="closeModal('modal-link')">取消</button>
+      <button class="btn-pri" onclick="closeModal('modal-link');toast('✓ 連結已儲存')">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 帳號 新增 -->
+<div id="modal-account" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-account')">
+  <div class="modal">
+    <h3>新增後台帳號白名單</h3>
+    <div style="display:grid;gap:14px">
+      <div><label class="flabel">SSO UID 或 Email <span style="color:var(--color-error-dark)">*</span></label><input class="finput" placeholder="例：admin001 或 admin@taipei.edu.tw"></div>
+      <div>
+        <label class="flabel">後台角色 <span style="color:var(--color-error-dark)">*</span></label>
+        <select class="finput">
+          <option>系統管理員</option>
+          <option>活動成果管理員</option>
+          <option>書單上架管理員</option>
+        </select>
+      </div>
+      <div style="background:#fef3c7;border-radius:8px;padding:10px 12px;font-size:12px;color:#92400e">
+        白名單設定後，待使用者下次 SSO 登入時自動套用角色。角色變更須重新登入後生效。
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:24px">
+      <button class="btn-sec" onclick="closeModal('modal-account')">取消</button>
+      <button class="btn-pri" onclick="closeModal('modal-account');toast('✓ 帳號已加入白名單')">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 刪除確認 -->
+<div id="modal-confirm" class="overlay hidden" onclick="if(event.target===this)closeModal('modal-confirm')">
+  <div class="modal" style="width:380px">
+    <h3 style="color:var(--color-error-dark)">確認刪除</h3>
+    <p id="confirm-msg" style="font-size:13px;color:var(--color-neutral-20);margin:0 0 20px"></p>
+    <div style="display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn-sec" onclick="closeModal('modal-confirm')">取消</button>
+      <button class="btn-pri" style="background:var(--color-error-dark)" onclick="closeModal('modal-confirm');toast('已刪除')">確認刪除</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hidden"></div>
+
+<!-- ── AB00 Login overlay ── -->
+<div id="admin-login-overlay" style="position:fixed;inset:0;z-index:500;background:var(--color-neutral-80);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;">
+
+  <!-- Login card (default state) -->
+  <div id="adm-login-card" style="width:100%;max-width:400px;background:var(--color-neutral-100);border-radius:var(--radius-lg);box-shadow:var(--shadow-40);border:1px solid var(--color-neutral-60);overflow:hidden;">
+    <!-- Header -->
+    <div style="background:var(--color-primary-50);padding:32px 32px 24px;text-align:center;">
+      <div style="width:48px;height:48px;background:rgba(255,255,255,.18);border-radius:var(--radius-def);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <div style="font-size:var(--font-size-18);font-weight:var(--font-weight-black);color:var(--color-neutral-100);letter-spacing:.02em;">智慧閱讀平台</div>
+      <div style="font-size:var(--font-size-12);color:rgba(255,255,255,.75);margin-top:4px;">後台管理系統</div>
+    </div>
+    <!-- Body -->
+    <div style="padding:28px 32px 32px;">
+      <p style="font-size:var(--font-size-12);font-weight:var(--font-weight-bold);color:var(--color-neutral-30);margin:0 0 12px;">管理員身分驗證</p>
+      <!-- SSO button -->
+      <button id="adm-sso-btn" onclick="showAdmOptions()" style="width:100%;padding:12px 16px;background:var(--color-primary-50);color:var(--color-neutral-100);border:none;border-radius:var(--radius-def);font-size:var(--font-size-14);font-weight:var(--font-weight-bold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;transition:opacity .15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        臺北市校園單一身分驗證入口
+      </button>
+      <!-- mockup options -->
+      <div id="adm-options" style="display:none;margin-top:12px;padding:14px;background:var(--color-neutral-80);border-radius:var(--radius-def);border:1px dashed var(--color-neutral-60);">
+        <p style="font-size:11px;color:var(--color-neutral-40);text-align:center;margin:0 0 10px;">── Mockup：模擬 SSO 回傳身分 ──</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button onclick="doAdminLogin()" style="padding:8px;background:var(--color-primary-50);color:var(--color-neutral-100);border:none;border-radius:var(--radius-sm);font-size:var(--font-size-12);font-weight:var(--font-weight-bold);cursor:pointer;font-family:inherit;">以管理員身分登入（系統管理員）</button>
+          <button onclick="showAdmDenied()" style="padding:8px;background:var(--color-neutral-60);color:var(--color-neutral-20);border:none;border-radius:var(--radius-sm);font-size:var(--font-size-12);font-weight:var(--font-weight-bold);cursor:pointer;font-family:inherit;">以非管理員登入（學生／教師）</button>
+        </div>
+      </div>
+      <!-- SSO error link -->
+      <div style="text-align:center;margin-top:16px;">
+        <button onclick="showAdmSSOError()" style="font-size:11px;color:var(--color-neutral-40);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;">模擬 SSO 服務異常</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Denied card -->
+  <div id="adm-denied-card" style="display:none;width:100%;max-width:400px;background:var(--color-neutral-100);border-radius:var(--radius-lg);box-shadow:var(--shadow-40);border:1px solid var(--color-neutral-60);padding:40px 32px;text-align:center;">
+    <div style="width:52px;height:52px;background:var(--color-error-light);border-radius:var(--radius-def);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-error-dark)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+    </div>
+    <div style="font-size:var(--font-size-16);font-weight:var(--font-weight-black);color:var(--color-neutral-0);margin-bottom:8px;">無存取權限</div>
+    <p style="font-size:var(--font-size-14);color:var(--color-neutral-20);line-height:1.6;margin:0 0 24px;">您的帳號未被授權存取後台管理系統。<br>如需申請權限，請洽系統管理員。</p>
+    <button onclick="resetAdmLogin()" style="padding:10px 28px;background:var(--color-neutral-80);color:var(--color-neutral-10);border:1px solid var(--color-neutral-60);border-radius:var(--radius-def);font-size:var(--font-size-14);font-weight:var(--font-weight-bold);cursor:pointer;font-family:inherit;">返回登入</button>
+  </div>
+
+  <!-- SSO error card -->
+  <div id="adm-sso-error-card" style="display:none;width:100%;max-width:400px;background:var(--color-neutral-100);border-radius:var(--radius-lg);box-shadow:var(--shadow-40);border:1px solid var(--color-neutral-60);padding:40px 32px;text-align:center;">
+    <div style="width:52px;height:52px;background:var(--color-warning-light);border-radius:var(--radius-def);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning-dark)" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+    </div>
+    <div style="font-size:var(--font-size-16);font-weight:var(--font-weight-black);color:var(--color-neutral-0);margin-bottom:8px;">登入服務暫時無法使用</div>
+    <p style="font-size:var(--font-size-14);color:var(--color-neutral-20);line-height:1.6;margin:0 0 6px;">臺北市校園單一身分驗證服務目前發生異常，請稍後再試。</p>
+    <p style="font-size:12px;color:var(--color-neutral-40);margin:0 0 24px;">如需緊急協助，請聯繫客服：<br><span style="color:var(--color-primary-50);font-weight:700;">02-2556-9835 #580</span></p>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button onclick="resetAdmLogin()" style="padding:10px 20px;background:var(--color-neutral-80);color:var(--color-neutral-10);border:1px solid var(--color-neutral-60);border-radius:var(--radius-def);font-size:var(--font-size-14);font-weight:var(--font-weight-bold);cursor:pointer;font-family:inherit;">重試</button>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--color-neutral-40);margin-top:24px;">© 2026 臺北市政府教育局</p>
+</div>
+
+<script>
+/* ── Page meta ── */
+const pageMeta = {
+  ab01: { label:'Banner 管理',    route:'/admin/banners' },
+  ab02: { label:'書單／書籍管理', route:'/admin/booklists' },
+  ab03: { label:'活動管理',       route:'/admin/activities' },
+  ab04: { label:'成果管理',       route:'/admin/results' },
+  ab05: { label:'公告管理',       route:'/admin/announcements' },
+  ab06: { label:'好站連結',       route:'/admin/links' },
+  ab07: { label:'多媒體資源',     route:'/admin/media' },
+  ab08: { label:'身分權限',       route:'/admin/accounts' },
+  ab09: { label:'統計報表',       route:'/admin/reports' },
+};
+
+/* ── Navigation ── */
+function go(key) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + key).classList.add('active');
+  // nav active state
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-' + key)?.classList.add('active');
+  // topbar
+  document.getElementById('breadcrumb').textContent = pageMeta[key].label;
+  document.getElementById('route-badge').textContent = pageMeta[key].route;
+  window.scrollTo(0, 0);
+}
+
+/* ── Role switcher ── */
+const roleAccess = {
+  sysadmin: ['ab01','ab02','ab03','ab04','ab05','ab06','ab07','ab08','ab09'],
+  activity:  ['ab03','ab04','ab05','ab07'],
+  booklist:  ['ab01','ab02','ab07'],
+};
+const roleLabels = {
+  sysadmin: '系統管理員',
+  activity: '活動成果管理員',
+  booklist: '書單上架管理員',
+};
+
+function switchRole(role) {
+  const allowed = roleAccess[role];
+  document.getElementById('sidebar-name').textContent = roleLabels[role];
+  document.querySelectorAll('.nav-item[data-roles]').forEach(item => {
+    const roles = item.dataset.roles.split(' ');
+    item.style.display = roles.includes(role) ? '' : 'none';
+  });
+  // if current page not accessible, go to first accessible page
+  const currentActive = document.querySelector('.page.active');
+  const currentKey = currentActive ? currentActive.id.replace('page-', '') : '';
+  if (!allowed.includes(currentKey)) {
+    go(allowed[0]);
+  }
+}
+
+/* ── Toggle switch ── */
+function toggleBtn(btn) {
+  const isOn = btn.classList.toggle('on');
+  btn.classList.toggle('off', !isOn);
+  const label = btn.nextElementSibling;
+  if (label && label.tagName === 'SPAN') {
+    label.textContent = isOn ? '上架' : '下架';
+    label.style.color = isOn ? '#16a34a' : '#94a3b8';
+  }
+  toast(isOn ? '已上架' : '已下架');
+}
+
+/* ── Admin Login ── */
+function showAdmOptions() {
+  document.getElementById('adm-options').style.display = 'block';
+  document.getElementById('adm-sso-btn').style.opacity = '.45';
+  document.getElementById('adm-sso-btn').style.pointerEvents = 'none';
+}
+function doAdminLogin() {
+  document.getElementById('admin-login-overlay').style.display = 'none';
+  toast('✓ 登入成功！歡迎，系統管理員');
+}
+function showAdmDenied() {
+  document.getElementById('adm-login-card').style.display = 'none';
+  document.getElementById('adm-denied-card').style.display = 'block';
+}
+function showAdmSSOError() {
+  document.getElementById('adm-login-card').style.display = 'none';
+  document.getElementById('adm-sso-error-card').style.display = 'block';
+}
+function resetAdmLogin() {
+  document.getElementById('adm-denied-card').style.display = 'none';
+  document.getElementById('adm-sso-error-card').style.display = 'none';
+  document.getElementById('adm-login-card').style.display = 'block';
+  document.getElementById('adm-options').style.display = 'none';
+  document.getElementById('adm-sso-btn').style.opacity = '1';
+  document.getElementById('adm-sso-btn').style.pointerEvents = '';
+}
+
+/* ── Modals ── */
+function openModal(id) {
+  if (id === 'modal-banner') {
+    // Reset to 新增 state
+    document.querySelector('#modal-banner h3').textContent = '新增 Banner';
+    document.querySelector('#modal-banner input.finput').value = '';
+    document.getElementById('banner-copy-note').style.display = 'none';
+    document.getElementById('banner-img-preview').style.display = 'none';
+    document.getElementById('banner-img-upload').style.display = '';
+    document.querySelector('input[name="banner-publish"][value="off"]').checked = true;
+    document.getElementById('banner-schedule-row').style.display = 'none';
+  }
+  document.getElementById(id).classList.remove('hidden');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+function copyBanner(title, sortOrder) {
+  // Pre-fill modal with copied data — no confirmation dialog needed
+  document.querySelector('#modal-banner h3').textContent = '新增 Banner（複製）';
+  var titleInput = document.querySelector('#modal-banner input.finput');
+  titleInput.value = (title || '2026 暑假閱讀挑戰') + '（複製）';
+  document.getElementById('banner-copy-note').style.display = '';
+  document.getElementById('banner-img-preview').style.display = '';
+  document.getElementById('banner-img-upload').style.display = 'none';
+  document.querySelector('input[name="banner-publish"][value="off"]').checked = true;
+  document.getElementById('banner-schedule-row').style.display = 'none';
+  document.getElementById('modal-banner').classList.remove('hidden');
+}
+
+function confirmDel(name) {
+  document.getElementById('confirm-msg').textContent = `確定要刪除「${name}」嗎？此操作無法復原。`;
+  openModal('modal-confirm');
+}
+
+/* ── AB02 tab ── */
+function switchAB02Tab(tab) {
+  const isList = tab === 'booklist';
+  document.getElementById('ab02-booklist').classList.toggle('hidden', !isList);
+  document.getElementById('ab02-creation').classList.toggle('hidden', isList);
+  document.getElementById('ab02-tab-booklist').classList.toggle('active', isList);
+  document.getElementById('ab02-tab-creation').classList.toggle('active', !isList);
+}
+
+/* ── AB04 tab ── */
+function switchAB04Tab(tab) {
+  const isCat = tab === 'category';
+  document.getElementById('ab04-category').classList.toggle('hidden', !isCat);
+  document.getElementById('ab04-items').classList.toggle('hidden', isCat);
+  document.getElementById('ab04-tab-category').classList.toggle('active', isCat);
+  document.getElementById('ab04-tab-items').classList.toggle('active', !isCat);
+}
+
+/* ── Account tab ── */
+function switchAcctTab(tab) {
+  const isWhitelist = tab === 'whitelist';
+  document.getElementById('acct-whitelist').classList.toggle('hidden', !isWhitelist);
+  document.getElementById('acct-audit').classList.toggle('hidden', isWhitelist);
+  document.getElementById('tab-whitelist').classList.toggle('active', isWhitelist);
+  document.getElementById('tab-audit').classList.toggle('active', !isWhitelist);
+}
+
+/* ── Toast ── */
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.add('hidden'), 2400);
+}
+
+/* ── ESC to close modal ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.overlay:not(.hidden)').forEach(m => m.classList.add('hidden'));
+});
+</script>
+<link rel="stylesheet" href="spec-enhance.css"><script src="spec-enhance.js"></script>
+</body>
+</html>

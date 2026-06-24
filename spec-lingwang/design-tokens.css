@@ -1,0 +1,213 @@
+/*
+ * HyVue CMS Design Tokens — 修正版
+ * 來源：design-tokens-full.json（與 Figma 100% 對齊）
+ * 修正：無效 CSS 變數名稱（空格、%、數字開頭）
+ * 字型複合 token 已展開為個別屬性
+ */
+
+:root {
+
+  /* ── 品牌主色（Primary） ── */
+  --color-primary-30:  #014d92;   /* 深藍，hover/active 狀態 */
+  --color-primary-50:  #0463b8;   /* 主藍，按鈕/連結 */
+  --color-primary-70:  #e6eef6;   /* 淺藍背景 */
+
+  /* ── 次要色（Secondary） ── */
+  --color-secondary-40:  #2d62b3;
+  --color-secondary-60:  #057bb7;
+  --color-secondary-80:  #80cbd7;
+  --color-secondary-100: #ebf0f9;
+
+  /* ── 中性色（Neutral） ── */
+  --color-neutral-0:   #111111;   /* 最深，幾乎黑 */
+  --color-neutral-10:  #333333;   /* 主文字色 */
+  --color-neutral-20:  #555555;   /* 次文字 */
+  --color-neutral-30:  #69707d;   /* Placeholder / 說明文字 */
+  --color-neutral-40:  #97a3b6;   /* 停用 / 邊框輔助 */
+  --color-neutral-60:  #dee0e3;   /* 分隔線 / 邊框 */
+  --color-neutral-70:  #f1f1f1;   /* 淺灰背景 */
+  --color-neutral-80:  #f8f8f8;   /* 頁面背景 */
+  --color-neutral-100: #ffffff;   /* 白色 */
+
+  /* ── 文字（Text） ── */
+  --color-text-base: #333333;     /* = neutral-10 */
+
+  /* ── 狀態色（Additional） ── */
+  --color-error-dark:    #c40000;
+  --color-error-light:   #ffedf1;
+  --color-success-dark:  #00754b;
+  --color-success-light: #eef8e4;
+  --color-warning-dark:  #c23e00;
+  --color-warning-light: #faece6;
+  --color-info-dark:     #00529b;
+  --color-info-light:    #e7f3ff;
+  --color-default-dark:  #333333;
+  --color-default-light: #f8f8f8;
+
+  /* ── 漸層（Gradients） ── */
+  --color-gradients-b: #057bb7;
+  --color-gradients-c: #80cbd7;
+  /* 完整漸層請使用 background: linear-gradient(135deg, var(--color-gradients-b), var(--color-gradients-c)) */
+
+  /* ── 透明度（Opacity） ── */
+  --color-opacity-blue-10:  #0156a21a;
+  --color-opacity-black-30: #1111114d;
+  --color-opacity-white-80: #ffffffcc;
+  --color-opacity-white-20: #ffffff33;
+  --color-opacity-green-20: #80cbd733;
+  --color-btn-hover-white:  #ffffff33;
+
+  /* ── 字型家族（Font Face） ── */
+  --font-face: 'Noto Sans TC', sans-serif;   /* 主字型（中文）*/
+  --font-face-en: Helvetica, sans-serif;     /* 英文補充字型 */
+
+  /* ── 字型大小（Font Size） ── */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-28: 28px;
+  --font-size-32: 32px;
+  --font-size-40: 40px;
+  --font-size-48: 48px;
+
+  /* ── 字重（Font Weight） ── */
+  --font-weight-regular: 400;
+  --font-weight-bold:    700;
+  --font-weight-black:   900;
+
+  /* ── 行高（Line Height） ── */
+  --line-height-h1:      40px;   /* for 32px font */
+  --line-height-h2:      32px;   /* for 28px / 16px font */
+  --line-height-h3:      28px;   /* for 20px font */
+  --line-height-body14:  28px;   /* for 14px font */
+  --line-height-body16:  32px;   /* for 16px font */
+  --line-height-h-lg:    48px;   /* for 48px font */
+
+  /* ── 字距（Letter Spacing） ── */
+  --letter-spacing-def: 0.6px;
+  --letter-spacing-med: 1.2px;
+
+  /* ── 間距（Spacing） ── */
+  --spacing-xs:  4px;
+  --spacing-sm:  8px;
+  --spacing-md:  12px;
+  --spacing-lg:  16px;
+  --spacing-xl:  20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+
+  /* ── 尺寸參考（Size Ref） ── */
+  --size-1:  1px;
+  --size-4:  4px;
+  --size-6:  6px;
+  --size-8:  8px;
+  --size-12: 12px;
+  --size-14: 14px;
+  --size-16: 16px;
+  --size-18: 18px;
+  --size-20: 20px;
+  --size-24: 24px;
+  --size-28: 28px;
+  --size-32: 32px;
+  --size-36: 36px;
+  --size-38: 38px;
+  --size-40: 40px;
+  --size-48: 48px;
+  --size-54: 54px;
+  --size-60: 60px;
+  --size-80: 80px;
+
+  /* ── 圓角（Border Radius） ── */
+  --radius-sm:   4px;
+  --radius-def:  8px;    /* 預設 */
+  --radius-med:  12px;
+  --radius-lg:   24px;
+  --radius-full: 120px;  /* 膠囊型 */
+
+  /* ── 陰影（Shadow） ── */
+  --shadow-20:  0px 3px 8px 0px #22222233;
+  --shadow-40:  0px 4px 16px -4px #2222224D;
+  --shadow-60:  0px 25px 50px -20px #22222240;
+  --shadow-100: 0px 4px 16px -4px #262B434D;
+}
+
+/* ════════════════════════════════
+   Typography 排版工具類別
+   直接對應 Figma 複合字型 token
+   ════════════════════════════════ */
+
+/* Heading */
+.text-h-lg {
+  font-family: var(--font-face);
+  font-size: var(--font-size-48);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-h-lg);
+  letter-spacing: var(--letter-spacing-med);
+}
+.text-h1 {
+  font-family: var(--font-face);
+  font-size: var(--font-size-32);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-med);
+}
+.text-h2 {
+  font-family: var(--font-face);
+  font-size: var(--font-size-28);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-med);
+}
+.text-h3 {
+  font-family: var(--font-face);
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-med);
+}
+.text-h4 {
+  font-family: var(--font-face);
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body14);
+  letter-spacing: var(--letter-spacing-def);
+}
+
+/* Body */
+.text-body-18-bold {
+  font-family: var(--font-face);
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-bold);
+  line-height: 36px;
+  letter-spacing: var(--letter-spacing-def);
+}
+.text-body-16 {
+  font-family: var(--font-face);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body16);
+  letter-spacing: var(--letter-spacing-def);
+}
+.text-body-16-bold {
+  font-family: var(--font-face);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body16);
+  letter-spacing: var(--letter-spacing-def);
+}
+.text-body-14 {
+  font-family: var(--font-face);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body14);
+  letter-spacing: var(--letter-spacing-def);
+}
+.text-body-14-bold {
+  font-family: var(--font-face);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body14);
+  letter-spacing: var(--letter-spacing-def);
+}

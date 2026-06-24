@@ -1,0 +1,156 @@
+/* Auto-generated from Figma Design Tokens */
+:root {
+  --sys-letter-spacing-def: 0.6000000238418579px;
+  --ref-font-size-18: 18px;
+  --ref-font-weight-bold: Bold;
+  --ref-font-face-face: Noto Sans TC;
+  --sys-line-height-fontsize 14: 28px;
+  /* --hy-vue-cms sys-heading text-h4: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/18, weight: 700, lineHeight: sys/Line-height/fontsize 14, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --sys-color-neutral-30: #69707d;
+  --ref-size-40: 40px;
+  --sys-radius-full: 120px;
+  --sys-color-neutral-100: #ffffff;
+  --shadow 40: 0px 4px 16px -4px #2222224D;
+  --ref-size-1: 1px;
+  --ref-font-size-28: 28px;
+  --sys-color-neutral-20: #555555;
+  --ref-font-size-16: 16px;
+  --sys-line-height-h2: 32px;
+  /* --hy-vue-cms sys-body text-16px-bold: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/16, weight: 700, lineHeight: sys/Line-height/H2, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --12px: 12;
+  --ref-size-12: 12px;
+  --rad-8: 8;
+  --sys-radius-def: 8px;
+  --sys-color-gradients-gradients-b: #057bb7;
+  --sys-color-gradients-gradients-c: #80cbd7;
+  --sys-color-secondary-40: #2d62b3;
+  --hyweb blue gradient: ;
+  --ref-font-weight-regular: Regular;
+  /* --hy-vue-cms sys-body text-16px: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Regular, size: Ref/Font/Size/16, weight: 400, lineHeight: sys/Line-height/H2, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --ref-size-8: 8px;
+  --8px: 8;
+  --sys-color-neutral-70: #f1f1f1;
+  --ref-size-60: 60px;
+  --shadow 20: 0px 3px Ref/Size/8 0px #22222233;
+  --ref-size-14: 14px;
+  --sys-color-additional-error-darkness: #c40000;
+  --sys-color-secondary-60: #057bb7;
+  --sys-spacing-xl: 20px;
+  --sys-radius-sm: 4px;
+  --ref-size-32: 32px;
+  --sys-radius-lg: 24px;
+  --ref-color-neutral-20: #555555;
+  --ref-color-neutral-10: #333333;
+  --ref-size-24: 24px;
+  --ref-size-4: 4px;
+  --sys-radius-med: 12px;
+  --sys-color-neutral-10: #333333;
+  --sys-letter-spacing-med: 1.2000000476837158px;
+  --ref-font-size-32: 32px;
+  --sys-line-height-h1: 40px;
+  /* --hy-vue-cms sys-heading text-h1: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/32, weight: 700, lineHeight: sys/Line-height/H1, letterSpacing: sys/Letter-spacing/med); (Unsupported format) */
+  --ref-font-size-20: 20px;
+  --sys-line-height-h3: 28px;
+  /* --hy-vue-cms sys-heading text-h3: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/20, weight: 700, lineHeight: sys/Line-height/H3, letterSpacing: sys/Letter-spacing/med); (Unsupported format) */
+  --ref-size-28: 28px;
+  --sys-color-neutral-80: #f8f8f8;
+  --ref-size-16: 16px;
+  --10px: 10;
+  --btn hover w: #ffffff33;
+  --ref-color-neutral-100: #ffffff;
+  /* --hy-vue-cms sys-heading text-h2: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/28, weight: 700, lineHeight: sys/Line-height/H2, letterSpacing: sys/Letter-spacing/med); (Unsupported format) */
+  --sys-color-neutral-60: #dee0e3;
+  --ref-font-size-14: 14px;
+  /* --hy-vue-cms sys-body text-14px-bold: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/14, weight: 700, lineHeight: sys/Line-height/fontsize 14, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --sys-color-primary-30: #014d92;
+  --ref-color-neutral-30: #69707d;
+  /* --hy-vue-cms sys-body text-14px: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Regular, size: Ref/Font/Size/14, weight: 400, lineHeight: sys/Line-height/fontsize 14, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --ref-color-neutral-60: #dee0e3;
+  --ref-size-18: 18px;
+  --ref-size-36: 36px;
+  /* --hy-vue-cms sys-body text-18px-bold: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Size/18, weight: 700, lineHeight: Ref/Size/36, letterSpacing: 0.6000000238418579); (Unsupported format) */
+  --ref-size-16: 16px;
+  --ref-size-24: 24px;
+  --ref-color-neutral-100: #ffffff;
+  --sys-color-neutral-40: #97a3b6;
+  --ref-color-additional-red-30: #c40000;
+  --sys-color-neutral-30: #69707d;
+  --ref-font-size-1rem: 16px;
+  --ref-font-weight-regular: Regular;
+  --ref-font-face-face: Noto Sans TC;
+  --sys-line-height-fontsize 16: 32px;
+  /* --hy-ui-body-16px: Font(family: "ref/Font/Face/Face", style: ref/Font/Weight/Regular, size: ref/Font/Size/1rem, weight: 400, lineHeight: sys/Line-height/fontsize 16, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --ref-size-20: 20px;
+  --ref-size-6: 6px;
+  --sys-color-neutral-0: #111111;
+  --ref-color-neutral-80: #f8f8f8;
+  /* --hy-vue-cms sys-body text-avatar text: Font(family: "Inter", style: Semi Bold, size: 12, weight: 600, lineHeight: 100, letterSpacing: 0); (Unsupported format) */
+  --ref-size-48: 48px;
+  --sys-color-opacity-blue 10%: #0156a21a;
+  --ref-color-additional-blue-30: #00529b;
+  --ref-color-additional-green-30: #00754b;
+  --ref-color-additional-orange-30: #c23e00;
+  --sys-color-opacity-black 30%: #1111114d;
+  --sys-color-text-base: #333333;
+  --ref-size-12: 12px;
+  --ref-size-4: 4px;
+  --sys-color-additional-default-lightness: #f8f8f8;
+  --sys-color-additional-normal-darkness: #00529b;
+  --sys-color-additional-normal-lightness: #e7f3ff;
+  --sys-color-additional-sucsess-darkness: #00754b;
+  --sys-color-additional-sucsess-lightness: #eef8e4;
+  --sys-color-additional-warning-darkness: #c23e00;
+  --sys-color-additional-warning-lightness: #faece6;
+  --sys-color-additional-error-lightness: #ffedf1;
+  --sys-color-additional-default-darkness: #333333;
+  --ref-color-additional-warning 70: #c23e00;
+  --ref-color-neutral-10: #333333;
+  --ref-color-primary-30: #014d92;
+  --sys-color-neutral-10: #333333;
+  --ref-size-80: 80px;
+  --ref-font-size-48: 48px;
+  --ref-font-weight-black: Black;
+  --ref-font-lineheight-48: 48;
+  /* --hy-vue-cms sys-heading text-h-lg: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/black, size: Ref/Font/Size/48, weight: 900, lineHeight: ref/font/lineheight/48, letterSpacing: sys/Letter-spacing/med); (Unsupported format) */
+  --ref-size-60: 60px;
+  --ref-size-48: 48px;
+  --ref-color-secondary-60: #057bb7;
+  --ref-size-54: 54px;
+  --sys-color-primary-70: #e6eef6;
+  --custom-primary: #1976D2;
+  --ref-color-secondary-40: #2d62b3;
+  --ref-color-neutral-20: #555555;
+  --shades-white: #FFFFFF;
+  --ref-font-face-英文字體: Helvetica;
+  /* --design styles-h-18px: Font(family: "ref/font/face/英文字體", style: Ref/Font/Weight/Regular, size: 18, weight: 400, lineHeight: sys/Line-height/H1, letterSpacing: 0); (Unsupported format) */
+  /* --v-icon-medium: Font(family: "Material Icons", style: Regular, size: 24, weight: 400, lineHeight: 1, letterSpacing: 0); (Unsupported format) */
+  --sys-color-secondary-100: #ebf0f9;
+  --shadow 60: 0px 25px 50px -20px #22222240;
+  --sys-color-opacity-white 80%: #ffffffcc;
+  --sys-color-opacity-white 20%: #ffffff33;
+  --sys-color-opacity-green 20%: #80cbd733;
+  --ref-color-neutral-40: #97a3b6;
+  --ref-color-neutral-0: #111111;
+  --ref-font-size-40: 40px;
+  --ref-color-neutral-0: #111111;
+  --shadow 100: 0px 4px 16px -4px #262B434D;
+  /* --v-text-body-1: Font(family: "Roboto", style: Regular, size: 16, weight: 400, lineHeight: 24, letterSpacing: 0.5); (Unsupported format) */
+  --apex grey-900: #111618;
+  /* --small-small 1: Font(family: "Lato", style: Regular, size: 11, weight: 400, lineHeight: 100, letterSpacing: 0); (Unsupported format) */
+  --apex white-100: #FFFFFF;
+  --apex grey-100: #DDE2E4;
+  --apex grey-400: #768B95;
+  /* --body-body 2: Font(family: "Lato", style: Regular, size: 14, weight: 400, lineHeight: 100, letterSpacing: 0); (Unsupported format) */
+  --apex blue-500: #2E93FA;
+  --sys-color-primary-50: #0463b8;
+  --sys-color-secondary-80: #80cbd7;
+  --apex blue-100: #EFF7FF;
+  --apex white-900: #2B2B2B;
+  --ref-size-38: 38px;
+  --ref-color-neutral-40: #97a3b6;
+  --ref-size-8: 8px;
+  --ref-size-40: 40px;
+  --ref-color-neutral-60: #dee0e3;
+  /* --hy-ui-body-16px-bold: Font(family: "Ref/Font/Face/Face", style: Ref/Font/Weight/Bold, size: Ref/Font/Size/16, weight: 700, lineHeight: Ref/Size/32, letterSpacing: sys/Letter-spacing/def); (Unsupported format) */
+  --ref-color-neutral-80: #f8f8f8;
+}
